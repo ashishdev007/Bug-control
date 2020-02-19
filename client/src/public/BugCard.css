@@ -1,0 +1,23 @@
+.ui.card.bugcard {
+  background-color: teal;
+  width: 100%;
+}
+
+.bugcard > .content {
+  color: white !important;
+}
+
+.bugcard > .content > .header {
+  color: white !important;
+}
+
+.bugcard > .content > .meta {
+  color: rgba(255, 255, 255, 0.71) !important;
+  font-style: italic;
+  font-size: 0.8em !important;
+}
+
+.bugcard > .content > .description {
+  color: rgba(255, 255, 255, 0.71) !important;
+  font-size: 1em !important;
+}
