@@ -32,7 +32,9 @@ export class AddBug extends Component<propsType> {
     );
   };
 
-  onDismiss = (): void => {};
+  onDismiss = (): void => {
+    this.props.BugAddAction(false);
+  };
 
   render() {
     if (this.props.addbug) {
