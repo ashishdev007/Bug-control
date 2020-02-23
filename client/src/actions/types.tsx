@@ -1,5 +1,6 @@
 export enum ActionTypes {
-  ADD_BUG = 'ADD_BUG'
+  OPEN_BUG_FORM = 'OPEN_BUG_FORM',
+  ADD_BUG_TO_CATEGORY = 'ADD_BUG_TO_CATEGORY'
 }
 
 export interface BaseAction {

@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { BugAdd as BugAddAction } from '../actions/bugActions';
+import { OpenBugForm } from '../../actions/bugActions';
 
-import BugCard from './BugCard';
-import '../public/stage.css';
+import BugCard from '../BugCard';
+import '../../public/stage.css';
 
 export class Stage extends Component<PropsType> {
   addButtonClick = () => {
-    this.props.BugAddAction(true);
+    this.props.OpenBugForm(true, this.props.state);
   };
 
   render() {
     return (
       <div className="stage">
         <div className="stageHead">
-          <h1 className="stageName">Open</h1>
+          <h1 className="stageName">{this.props.stageType}</h1>
           <p className="stageNoItems">10 Items</p>
         </div>
         <button className="fluid ui icon button" onClick={this.addButtonClick}>
@@ -31,13 +31,18 @@ const mapStatetoProps = (state: any) => {
 };
 
 const mapDispatchtoProps = {
-  BugAddAction: BugAddAction
+  OpenBugForm: OpenBugForm
 };
 
 const connector = connect(null, mapDispatchtoProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-type PropsType = PropsFromRedux;
+type OtherPropsType = {
+  stageType: string;
+  state: string;
+};
+
+type PropsType = PropsFromRedux & OtherPropsType;
 
 export default connector(Stage);
