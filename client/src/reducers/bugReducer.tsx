@@ -28,7 +28,7 @@ const INITIAL_STATE: stateType = {
 const bugReducer = (state: stateType = INITIAL_STATE, action: BaseAction) => {
   switch (action.type) {
     case ActionTypes.ADD_BUG:
-      return { ...state, addbug: true };
+      return { ...state, addbug: action.payload };
 
     default:
       return state;

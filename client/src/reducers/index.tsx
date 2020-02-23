@@ -1,5 +1,8 @@
-import { createStore, combineReducers } from 'redux';
+import { combineReducers } from 'redux';
+import bugReducer from './bugReducer';
 
-const reducers = combineReducers({});
+const reducers = combineReducers({
+  bugs: bugReducer
+});
 
 export default reducers;

@@ -4,4 +4,5 @@ export enum ActionTypes {
 
 export interface BaseAction {
   type: ActionTypes;
+  payload: any;
 }

@@ -1,7 +1,11 @@
 import React, { Component, ReactElement } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+
+import { BugAdd as BugAddAction } from '../actions/bugActions';
+
 import ModalForm from '../modals/modalForm';
 
-export class AddBug extends Component {
+export class AddBug extends Component<propsType> {
   content = (): ReactElement => {
     return (
       <React.Fragment>
@@ -31,17 +35,35 @@ export class AddBug extends Component {
   onDismiss = (): void => {};
 
   render() {
-    return (
-      <div>
-        <ModalForm
-          header="Add a Bug"
-          content={this.content}
-          actions={this.actions}
-          onDismiss={this.onDismiss}
-        />
-      </div>
-    );
+    if (this.props.addbug) {
+      return (
+        <div>
+          <ModalForm
+            header="Add a Bug"
+            content={this.content}
+            actions={this.actions}
+            onDismiss={this.onDismiss}
+          />
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
-export default AddBug;
+const mapStateToProps = (state: any) => {
+  const { addbug } = state.bugs;
+  return { addbug };
+};
+
+const mapDispatchToProps = {
+  BugAddAction: BugAddAction
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type propsType = PropsFromRedux;
+
+export default connector(AddBug);
