@@ -1,16 +1,8 @@
-import { ActionTypes, BaseAction } from '../actions/types';
+import { ActionTypes, bug } from '../actions/types';
 import {
   OpenBugFormReturnType,
   AddBugToCategoryReturnType
 } from '../actions/bugActions';
-
-interface bug {
-  user?: string;
-  id?: number;
-  category: string;
-  title: string;
-  description: string;
-}
 
 interface stateType {
   bugs: {
@@ -29,7 +21,13 @@ interface stateType {
 //   "CLOSED": Array<bug>;
 const INITIAL_STATE: stateType = {
   bugs: {
-    OPEN: [],
+    OPEN: [
+      {
+        category: 'OPEN',
+        title: 'string',
+        description: 'string'
+      }
+    ],
     IN_PROGRESS: [],
     TEST_PENDING: [],
     RE_OPENED: [],
@@ -50,9 +48,21 @@ const bugReducer = (
       return { ...state, addbug: action.payload };
 
     case ActionTypes.ADD_BUG_TO_CATEGORY:
-      var newBugs = state.bugs;
-      newBugs[action.payload.category].push(action.payload);
-      return { ...state, bugs: newBugs };
+      var bugs: {
+        [key: string]: Array<bug>;
+      } = {};
+      bugs[action.payload.category] = state.bugs[
+        action.payload.category
+      ].slice();
+      bugs[action.payload.category].push(action.payload);
+
+      return {
+        ...state,
+        bugs: {
+          ...state.bugs,
+          ...bugs
+        }
+      };
 
     default:
       return state;

@@ -1,5 +1,4 @@
 import { ActionTypes, BaseAction } from './types';
-import { findAllByTitle } from '@testing-library/react';
 
 export interface OpenBugFormReturnType extends BaseAction {
   type: ActionTypes.OPEN_BUG_FORM;

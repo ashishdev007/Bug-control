@@ -7,3 +7,11 @@ export interface BaseAction {
   type: ActionTypes;
   payload: any;
 }
+
+export interface bug {
+  user?: string;
+  id?: number;
+  category: string;
+  title: string;
+  description: string;
+}

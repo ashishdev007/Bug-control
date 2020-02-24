@@ -1,4 +1,4 @@
-import React, { Component, ReactElement, SyntheticEvent } from 'react';
+import React, { Component, ReactElement } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
 import { OpenBugForm, AddBugToCategory } from '../actions/bugActions';
@@ -62,6 +62,8 @@ export class AddBug extends Component<propsType, formState> {
       title: this.state.title,
       description: this.state.description
     });
+    this.setState({ title: '', description: '' });
+
     this.props.OpenBugForm(false, '');
   };
 

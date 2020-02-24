@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import '../public/BugCard.css';
 
-export class BugCard extends Component {
+import { bug } from '../actions/types';
+export class BugCard extends Component<bug> {
   render() {
     return (
       <div className="ui card bugcard">
         <div className="content">
-          <div className="header">Elliot Fu</div>
+          <div className="header">{this.props.title}</div>
           <div className="meta">By Friend</div>
-          <div className="description">
-            Elliot Fu is a film-maker from New York. Elliot Fu is a film-maker
-            from New York.
-          </div>
+          <div className="description">{this.props.description}</div>
         </div>
       </div>
     );
