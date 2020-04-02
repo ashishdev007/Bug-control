@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { OpenBugForm } from '../../actions/bugActions';
+import { OpenBugForm, AddBugToCategory } from '../../actions/bugActions';
+import { AddDraggedBug } from '../../actions/dragActions';
 import { bug } from '../../actions/types';
 
 import BugCard from '../BugCard';
@@ -9,7 +10,6 @@ import '../../public/stage.css';
 export class Stage extends Component<PropsType> {
   constructor(props: PropsType) {
     super(props);
-    // this.state = {items}
   }
 
   componentDidUpdate(prevProps: PropsType) {
@@ -35,10 +35,22 @@ export class Stage extends Component<PropsType> {
     });
   };
 
+  allowDrop = (event: any) => {
+    event.preventDefault();
+  };
+
+  onDrop = (event: any) => {
+    event.preventDefault();
+    var draggedBug = this.props.draggedBug;
+    draggedBug.category = this.props.state;
+
+    this.props.AddBugToCategory(draggedBug);
+  };
+
   render() {
     console.log(this.props);
     return (
-      <div className="stage">
+      <div className="stage" onDrop={this.onDrop} onDragOver={this.allowDrop}>
         <div className="stageHead">
           <h1 className="stageName">{this.props.stageType}</h1>
           <p className="stageNoItems">10 Items</p>
@@ -54,11 +66,14 @@ export class Stage extends Component<PropsType> {
 
 const mapStatetoProps = (state: any, ownProps: OtherPropsType) => {
   var items = state.bugs.bugs[ownProps.state];
-  return { items };
+  var draggedBug = state.dragElement.draggedElement;
+  return { items, draggedBug };
 };
 
 const mapDispatchtoProps = {
-  OpenBugForm: OpenBugForm
+  OpenBugForm: OpenBugForm,
+  AddBugToCategory: AddBugToCategory,
+  AddDraggedBug: AddDraggedBug
 };
 
 const connector = connect(mapStatetoProps, mapDispatchtoProps);

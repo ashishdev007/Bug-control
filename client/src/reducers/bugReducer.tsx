@@ -1,4 +1,4 @@
-import { ActionTypes, bug } from '../actions/types';
+import { ActionTypes, bug, BaseAction } from '../actions/types';
 import {
   OpenBugFormReturnType,
   AddBugToCategoryReturnType
@@ -14,11 +14,6 @@ interface stateType {
   };
 }
 
-// "OPEN": Array<bug>;
-//   "IN_PROGRESS": Array<bug>;
-//   "TEST_PENDING": Array<bug>;
-//   "RE_OPENED": Array<bug>;
-//   "CLOSED": Array<bug>;
 const INITIAL_STATE: stateType = {
   bugs: {
     OPEN: [
@@ -41,7 +36,7 @@ const INITIAL_STATE: stateType = {
 
 const bugReducer = (
   state: stateType = INITIAL_STATE,
-  action: OpenBugFormReturnType | AddBugToCategoryReturnType
+  action: OpenBugFormReturnType | AddBugToCategoryReturnType | BaseAction
 ) => {
   switch (action.type) {
     case ActionTypes.OPEN_BUG_FORM:
