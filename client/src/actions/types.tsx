@@ -1,7 +1,10 @@
 export enum ActionTypes {
   OPEN_BUG_FORM = 'OPEN_BUG_FORM',
   ADD_BUG_TO_CATEGORY = 'ADD_BUG_TO_CATEGORY',
-  ADD_DRAGGED_BUG = 'ADD_DRAGGED_BUG'
+  ADD_DRAGGED_BUG = 'ADD_DRAGGED_BUG',
+  LOADING_BUGS = 'LOADING_BUGS',
+  FETCH_BUGS = 'FETCH_BUGS',
+  DELETE_BUG = 'DELETE_BUG'
 }
 
 export interface BaseAction {
@@ -10,7 +13,7 @@ export interface BaseAction {
 }
 
 export interface bug {
-  user?: string;
+  userid?: number;
   id?: number;
   category: string;
   title: string;

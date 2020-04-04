@@ -1,5 +1,5 @@
 import { ActionTypes, bug, BaseAction } from '../actions/types';
-import { AddDraggedBugReturnType, AddDraggedBug } from '../actions/dragActions';
+import { AddDraggedBugReturnType } from '../actions/dragActions';
 
 interface stateType {
   draggedElement: bug | null;

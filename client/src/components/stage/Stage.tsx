@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { OpenBugForm, AddBugToCategory } from '../../actions/bugActions';
+import {
+  OpenBugForm,
+  AddBugToCategory,
+  DeleteBug
+} from '../../actions/bugActions';
 import { AddDraggedBug } from '../../actions/dragActions';
 import { bug } from '../../actions/types';
 
@@ -13,7 +17,7 @@ export class Stage extends Component<PropsType> {
   }
 
   componentDidUpdate(prevProps: PropsType) {
-    console.log(this.props);
+    // console.log(this.props);
   }
 
   addButtonClick = () => {
@@ -22,11 +26,13 @@ export class Stage extends Component<PropsType> {
 
   getBugCards = () => {
     var i = 0;
-    return this.props.items.map((item: bug) => {
+    return this.props.items.map((item: any) => {
       i++;
       return (
         <BugCard
-          key={i}
+          key={item.id}
+          id={item.id}
+          userid={item.userid}
           title={item.title}
           description={item.description}
           category={item.category}
@@ -41,14 +47,16 @@ export class Stage extends Component<PropsType> {
 
   onDrop = (event: any) => {
     event.preventDefault();
-    var draggedBug = this.props.draggedBug;
+
+    this.props.DeleteBug(this.props.draggedBug);
+
+    var draggedBug = { ...this.props.draggedBug };
     draggedBug.category = this.props.state;
 
     this.props.AddBugToCategory(draggedBug);
   };
 
   render() {
-    console.log(this.props);
     return (
       <div className="stage" onDrop={this.onDrop} onDragOver={this.allowDrop}>
         <div className="stageHead">
@@ -65,7 +73,7 @@ export class Stage extends Component<PropsType> {
 }
 
 const mapStatetoProps = (state: any, ownProps: OtherPropsType) => {
-  var items = state.bugs.bugs[ownProps.state];
+  var items = Object.values(state.bugs.bugs[ownProps.state]);
   var draggedBug = state.dragElement.draggedElement;
   return { items, draggedBug };
 };
@@ -73,7 +81,8 @@ const mapStatetoProps = (state: any, ownProps: OtherPropsType) => {
 const mapDispatchtoProps = {
   OpenBugForm: OpenBugForm,
   AddBugToCategory: AddBugToCategory,
-  AddDraggedBug: AddDraggedBug
+  AddDraggedBug: AddDraggedBug,
+  DeleteBug: DeleteBug
 };
 
 const connector = connect(mapStatetoProps, mapDispatchtoProps);

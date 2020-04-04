@@ -7,18 +7,12 @@ import '../public/BugCard.css';
 
 export class BugCard extends Component<PropsType> {
   drag = (event: any) => {
-    var bug: bug = {
-      title: this.props.title,
-      description: this.props.description,
-      category: this.props.category
-    };
+    const { id, userid, title, description, category } = this.props;
 
-    this.props.AddDraggedBug(bug);
+    this.props.AddDraggedBug({ id, userid, title, description, category });
   };
 
   render() {
-    console.log('jhasdgfjashfjsdgjhsdaglhsghsag');
-    console.log(this.props);
     return (
       <div className="ui card bugcard" draggable="true" onDragStart={this.drag}>
         <div className="content">
@@ -31,7 +25,7 @@ export class BugCard extends Component<PropsType> {
   }
 }
 
-const mapStatetoProps = (state: any, ownProps: OtherPropsType) => {
+const mapStatetoProps = (state: any, ownProps: bug) => {
   return {};
 };
 
@@ -43,12 +37,6 @@ const connector = connect(mapStatetoProps, mapDispatchtoProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-type OtherPropsType = {
-  title: string;
-  description: string;
-  category: string;
-};
-
-type PropsType = PropsFromRedux & OtherPropsType;
+type PropsType = PropsFromRedux & bug;
 
 export default connector(BugCard);

@@ -1,4 +1,4 @@
-import { ActionTypes, BaseAction } from './types';
+import { ActionTypes, BaseAction, bug } from './types';
 
 export interface OpenBugFormReturnType extends BaseAction {
   type: ActionTypes.OPEN_BUG_FORM;
@@ -10,11 +10,7 @@ export interface OpenBugFormReturnType extends BaseAction {
 
 export interface AddBugToCategoryReturnType extends BaseAction {
   type: ActionTypes.ADD_BUG_TO_CATEGORY;
-  payload: {
-    category: string;
-    title: string;
-    description: string;
-  };
+  payload: Array<bug>;
 }
 
 export const OpenBugForm = (
@@ -30,14 +26,40 @@ export const OpenBugForm = (
   };
 };
 
-export const AddBugToCategory = (bug: {
-  category: string;
-  title: string;
-  description: string;
-}): AddBugToCategoryReturnType => {
-  const { category, title, description } = bug;
-  return {
+export const AddBugToCategory = (bug: bug) => async (dispatch: any) => {
+  const response = await fetch('http://localhost:1500/bugs', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(bug)
+  });
+
+  dispatch({
     type: ActionTypes.ADD_BUG_TO_CATEGORY,
-    payload: { category, title, description }
-  };
+    payload: [bug]
+  });
+};
+
+export const DeleteBug = (bug: bug) => async (dispatch: any) => {
+  const query = 'http://localhost:1500/bugs/' + bug.id;
+
+  fetch(query, { method: 'DELETE' }).then(res => {
+    dispatch({
+      type: ActionTypes.DELETE_BUG,
+      payload: bug
+    });
+  });
+};
+
+export const FetchBugs = () => async (dispatch: any) => {
+  dispatch({ type: ActionTypes.LOADING_BUGS, payload: null });
+
+  fetch('http://localhost:1500/bugs')
+    .then(response => {
+      return response.json();
+    })
+    .then(data => {
+      dispatch({ type: ActionTypes.FETCH_BUGS, payload: data });
+    });
 };

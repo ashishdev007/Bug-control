@@ -60,7 +60,9 @@ export class AddBug extends Component<propsType, formState> {
     this.props.AddBugToCategory({
       category: category,
       title: this.state.title,
-      description: this.state.description
+      description: this.state.description,
+      id: 1,
+      userid: 1
     });
     this.setState({ title: '', description: '' });
 

@@ -1,5 +1,5 @@
 .stage {
-  height: 50vh;
+  min-height: 100vh;
   width: 18vw;
   border-left: 1px solid #ece9f2;
 
