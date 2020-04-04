@@ -90,11 +90,11 @@ router.post('/', (req, res) => {
     category +
     '")';
 
-  connection.query(query, error => {
+  connection.query(query, (error, results) => {
     if (error) {
       res.json({ success: false });
     } else {
-      res.json({ success: true });
+      res.json({ success: true, insertId: results.insertId });
     }
   });
 });

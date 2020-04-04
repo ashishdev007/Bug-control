@@ -27,18 +27,23 @@ export const OpenBugForm = (
 };
 
 export const AddBugToCategory = (bug: bug) => async (dispatch: any) => {
-  const response = await fetch('http://localhost:1500/bugs', {
+  fetch('http://localhost:1500/bugs', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(bug)
-  });
-
-  dispatch({
-    type: ActionTypes.ADD_BUG_TO_CATEGORY,
-    payload: [bug]
-  });
+  })
+    .then(response => {
+      return response.json();
+    })
+    .then(data => {
+      bug.id = data.insertId;
+      dispatch({
+        type: ActionTypes.ADD_BUG_TO_CATEGORY,
+        payload: [bug]
+      });
+    });
 };
 
 export const DeleteBug = (bug: bug) => async (dispatch: any) => {
