@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import {
   OpenBugForm,
   AddBugToCategory,
-  DeleteBug
+  DeleteBug,
 } from '../../actions/bugActions';
 import { AddDraggedBug } from '../../actions/dragActions';
 import { bug } from '../../actions/types';
@@ -25,16 +25,20 @@ export class Stage extends Component<PropsType> {
   };
 
   getBugCards = () => {
-    var i = 0;
     return this.props.items.map((item: any) => {
-      i++;
+      var description =
+        item.description.length > 35
+          ? item.description.substring(0, 35) + '...'
+          : item.description.substring(0, item.description.length);
+
+      console.log(description);
       return (
         <BugCard
           key={item.id}
           id={item.id}
           userid={item.userid}
           title={item.title}
-          description={item.description}
+          description={description}
           category={item.category}
         />
       );
@@ -82,7 +86,7 @@ const mapDispatchtoProps = {
   OpenBugForm: OpenBugForm,
   AddBugToCategory: AddBugToCategory,
   AddDraggedBug: AddDraggedBug,
-  DeleteBug: DeleteBug
+  DeleteBug: DeleteBug,
 };
 
 const connector = connect(mapStatetoProps, mapDispatchtoProps);

@@ -13,6 +13,7 @@ export class BugCard extends Component<PropsType> {
   };
 
   render() {
+    console.log(this.props.description);
     return (
       <div className="ui card bugcard" draggable="true" onDragStart={this.drag}>
         <div className="content">
@@ -30,7 +31,7 @@ const mapStatetoProps = (state: any, ownProps: bug) => {
 };
 
 const mapDispatchtoProps = {
-  AddDraggedBug: AddDraggedBug
+  AddDraggedBug: AddDraggedBug,
 };
 
 const connector = connect(mapStatetoProps, mapDispatchtoProps);

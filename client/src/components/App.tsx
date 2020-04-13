@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Stage from './stage/Stage';
 import AddBug from './AddBug';
+import BugDetail from './bugDetail/BugDetail';
 import { connect, ConnectedProps } from 'react-redux';
 import { FetchBugs } from '../actions/bugActions';
 
@@ -30,6 +31,7 @@ export class App extends Component<PropsType> {
         />
         <Stage stageType={StageHeaders.CLOSED} state={StageStates.CLOSED} />
         <AddBug />
+        <BugDetail />
       </div>
     );
   }
@@ -47,7 +49,7 @@ const mapStatetoProps = (state: any, ownProps: OtherPropsType) => {
 };
 
 const mapDispatchtoProps = {
-  FetchBugs: FetchBugs
+  FetchBugs: FetchBugs,
 };
 
 const connector = connect(mapStatetoProps, mapDispatchtoProps);

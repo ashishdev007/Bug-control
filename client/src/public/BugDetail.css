@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+.BugDetail {
+  max-height: 85vh;
+  overflow: auto;
+}
+
+#BugDetailHeader {
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+#BugDetailCategory {
+  text-align: center;
+}
+
+.BugDescription {
+  font-size: 0.85rem;
+}
+
+.BugFeatures {
+  display: flex;
+  margin: auto;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
+.BugFeature {
+  margin: auto 2rem;
+  margin-right: 1rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 1.22rem;
+}
+
+.BugFeature:nth-child(1) {
+  margin-left: 0;
+}
+
+.ui.dropdown {
+  width: 9rem;
+}
+
+.RecentNotes {
+  width: 50%;
+  height: 48vh;
+  overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  background: #f9fafb;
+  border-color: rgba(34, 36, 38, 0.15);
+  -webkit-box-shadow: 0 2px 25px 0 rgba(34, 36, 38, 0.05) inset;
+  box-shadow: 0 2px 25px 0 rgba(34, 36, 38, 0.05) inset;
+
+  border-radius: 0.28571429rem;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+}
+
+.RecentNotes > .header {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  text-decoration: underline;
+  margin-top: 2%;
+  margin-bottom: 0;
+}
+
+.NoteDate {
+  margin-top: 2%;
+}
+
+.RecentNote {
+  background: #fff;
+  box-shadow: 0 1px 2px 0 rgba(34, 36, 38, 0.15);
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  padding: 1em 1em;
+
+  width: 95% !important;
+  font-size: 0.95rem;
+  line-height: 1.25 !important;
+  margin: 0.35em 0 !important;
+  padding: 0.75em !important;
+  min-height: fit-content !important;
+}
+
+.RecentNote > .content {
+  padding: 0 !important;
+}
+
+.OtherActions {
+  width: 50%;
+  padding: 0 2%;
+  flex-direction: column;
+}
+
+#AddNoteHeader {
+  font-family: Roboto;
+  font-size: 1.25em;
+  font-weight: 500;
+}
+
+#NewNote {
+  width: 100%;
+  height: 25%;
+  margin: 1.5% 0;
+}
+
+.OtherActions > .button {
+  display: block;
+  width: fit-content;
+}
