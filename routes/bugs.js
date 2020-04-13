@@ -8,10 +8,10 @@ var connection = mysql.createConnection({
   host: '130.211.219.137',
   user: 'deva',
   password: 'asdf',
-  database: 'Bugs'
+  database: 'Bugs',
 });
 
-connection.connect(err => {
+connection.connect((err) => {
   if (err) {
     console.log(err);
   } else {
@@ -75,6 +75,28 @@ router.get('/', (req, res) => {
   }
 });
 
+router.get('/:id', (req, res) => {
+  var query1 = 'SELECT * FROM BUGS WHERE id=' + req.params.id;
+  var query2 =
+    'SELECT * FROM NOTES WHERE bugId=' +
+    req.params.id +
+    ' ORDER BY dateTime DESC';
+  try {
+    connection.query(query1, (err, result1) => {
+      if (err) throw err;
+
+      connection.query(query2, (err, result2) => {
+        if (err) throw err;
+
+        result1[0].notes = result2;
+        res.json(result1);
+      });
+    });
+  } catch (err) {
+    res.json({ success: false });
+  }
+});
+
 router.post('/', (req, res) => {
   const { userid, title, description, category } = req.body;
 
@@ -102,7 +124,7 @@ router.post('/', (req, res) => {
 router.delete('/:id', (req, res) => {
   const query = 'DELETE FROM BUGS WHERE id = ' + req.params.id;
 
-  connection.query(query, error => {
+  connection.query(query, (error) => {
     if (error) res.send({ success: false });
     else res.send({ success: true });
   });
