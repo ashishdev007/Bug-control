@@ -9,6 +9,7 @@ var connection = mysql.createConnection({
   user: 'deva',
   password: 'asdf',
   database: 'Bugs',
+  dateStrings: false,
 });
 
 connection.connect((err) => {
@@ -85,16 +86,51 @@ router.get('/:id', (req, res) => {
     connection.query(query1, (err, result1) => {
       if (err) throw err;
 
-      connection.query(query2, (err, result2) => {
+      connection.query(query2, (err, result2, fields) => {
         if (err) throw err;
 
         result1[0].notes = result2;
-        res.json(result1);
+        res.json(result1[0]);
       });
     });
   } catch (err) {
     res.json({ success: false });
   }
+});
+
+router.post('/notes', (req, res) => {
+  const { bugId, content } = req.body;
+  var dateTime = new Date();
+  dateTime = dateTime.toISOString();
+
+  const query =
+    'INSERT INTO NOTES (bugId, content) ' +
+    'VALUES (' +
+    bugId +
+    ", '" +
+    content +
+    "')";
+  // const query =
+  //   'INSERT INTO NOTES (bugId, content, dateTime) ' +
+  //   'VALUES (' +
+  //   bugId +
+  //   ", '" +
+  //   content +
+  //   "', '" +
+  //   dateTime +
+  //   "')";
+
+  console.log(query);
+
+  connection.query(query, (error, results, fields) => {
+    if (error) {
+      console.log(error);
+      res.json({ success: false });
+    } else {
+      console.log(fields);
+      res.json({ success: true });
+    }
+  });
 });
 
 router.post('/', (req, res) => {

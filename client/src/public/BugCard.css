@@ -1,6 +1,7 @@
 .ui.card.bugcard {
   background-color: teal;
   width: 100%;
+  cursor: pointer;
 }
 
 .bugcard > .content {

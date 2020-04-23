@@ -16,9 +16,7 @@ export class Stage extends Component<PropsType> {
     super(props);
   }
 
-  componentDidUpdate(prevProps: PropsType) {
-    // console.log(this.props);
-  }
+  componentDidUpdate(prevProps: PropsType) {}
 
   addButtonClick = () => {
     this.props.OpenBugForm(true, this.props.state);
@@ -31,7 +29,6 @@ export class Stage extends Component<PropsType> {
           ? item.description.substring(0, 35) + '...'
           : item.description.substring(0, item.description.length);
 
-      console.log(description);
       return (
         <BugCard
           key={item.id}

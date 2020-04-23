@@ -15,7 +15,8 @@
 }
 
 .BugDescription {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
+  text-align: center;
 }
 
 .BugFeatures {
@@ -88,6 +89,12 @@
 
 .RecentNote > .content {
   padding: 0 !important;
+}
+
+.NoteDate.SeeAllNotes {
+  margin-top: 3%;
+  margin-bottom: 3%;
+  text-decoration: underline;
 }
 
 .OtherActions {

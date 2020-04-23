@@ -4,7 +4,9 @@ export enum ActionTypes {
   ADD_DRAGGED_BUG = 'ADD_DRAGGED_BUG',
   LOADING_BUGS = 'LOADING_BUGS',
   FETCH_BUGS = 'FETCH_BUGS',
-  DELETE_BUG = 'DELETE_BUG'
+  DELETE_BUG = 'DELETE_BUG',
+  SHOW_BUG_DETAIL = 'SHOW_BUG_DETAIL',
+  ADD_NEW_NOTE = 'ADD_NEW_NOTE',
 }
 
 export interface BaseAction {
@@ -14,8 +16,11 @@ export interface BaseAction {
 
 export interface bug {
   userid?: number;
-  id?: number;
+  id: number;
   category: string;
   title: string;
   description: string;
+  reproducible?: string;
+  severity?: string;
+  notes?: any;
 }

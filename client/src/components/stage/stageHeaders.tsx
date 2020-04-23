@@ -3,5 +3,17 @@ export enum StageHeaders {
   IN_PROGRESS = 'In Progress',
   TEST_PENDING = 'To be Tested',
   RE_OPENED = 'Re-opened',
-  CLOSED = 'Closed'
+  CLOSED = 'Closed',
+}
+
+export const StageHeadersObject: StageHeadersObjectType = {
+  OPEN: 'Open',
+  IN_PROGRESS: 'In Progress',
+  TEST_PENDING: 'To be Tested',
+  RE_OPENED: 'Re-opened',
+  CLOSED: 'Closed',
+};
+
+interface StageHeadersObjectType {
+  [key: string]: string;
 }

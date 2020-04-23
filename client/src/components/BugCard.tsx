@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { ShowBugDetails } from '../actions/bugActions';
 import { AddDraggedBug } from '../actions/dragActions';
 import { bug } from '../actions/types';
 
@@ -12,10 +13,18 @@ export class BugCard extends Component<PropsType> {
     this.props.AddDraggedBug({ id, userid, title, description, category });
   };
 
+  onClick = () => {
+    this.props.ShowBugDetails(this.props.id, true);
+  };
+
   render() {
-    console.log(this.props.description);
     return (
-      <div className="ui card bugcard" draggable="true" onDragStart={this.drag}>
+      <div
+        className="ui card bugcard"
+        draggable="true"
+        onDragStart={this.drag}
+        onClick={this.onClick}
+      >
         <div className="content">
           <div className="header">{this.props.title}</div>
           <div className="meta">By Friend</div>
@@ -32,6 +41,7 @@ const mapStatetoProps = (state: any, ownProps: bug) => {
 
 const mapDispatchtoProps = {
   AddDraggedBug: AddDraggedBug,
+  ShowBugDetails: ShowBugDetails,
 };
 
 const connector = connect(mapStatetoProps, mapDispatchtoProps);

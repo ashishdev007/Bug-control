@@ -1,7 +1,7 @@
 import { ActionTypes, bug, BaseAction } from '../actions/types';
 import {
   OpenBugFormReturnType,
-  AddBugToCategoryReturnType
+  AddBugToCategoryReturnType,
 } from '../actions/bugActions';
 import { bugTypes } from '../bugTypes';
 import mapkeys from 'lodash.mapkeys';
@@ -17,6 +17,10 @@ interface stateType {
     state: boolean;
     requestedBy: string;
   };
+  bugDetail: {
+    show: boolean;
+    bug: bug | { notes?: any };
+  };
 }
 
 const INITIAL_STATE: stateType = {
@@ -25,12 +29,16 @@ const INITIAL_STATE: stateType = {
     IN_PROGRESS: {},
     TEST_PENDING: {},
     RE_OPENED: {},
-    CLOSED: {}
+    CLOSED: {},
   },
   addbug: {
     state: false,
-    requestedBy: ''
-  }
+    requestedBy: '',
+  },
+  bugDetail: {
+    show: false,
+    bug: {},
+  },
 };
 
 const bugReducer = (
@@ -52,19 +60,26 @@ const bugReducer = (
           OPEN: { ...state.bugs.OPEN, ...mapkeys(OPEN, 'id') },
           IN_PROGRESS: {
             ...state.bugs.IN_PROGRESS,
-            ...mapkeys(IN_PROGRESS, 'id')
+            ...mapkeys(IN_PROGRESS, 'id'),
           },
           TEST_PENDING: {
             ...state.bugs.TEST_PENDING,
-            ...mapkeys(TEST_PENDING, 'id')
+            ...mapkeys(TEST_PENDING, 'id'),
           },
           RE_OPENED: { ...state.bugs.RE_OPENED, ...mapkeys(RE_OPENED, 'id') },
-          CLOSED: { ...state.bugs.CLOSED, ...mapkeys(CLOSED, 'id') }
-        }
+          CLOSED: { ...state.bugs.CLOSED, ...mapkeys(CLOSED, 'id') },
+        },
       };
 
     case ActionTypes.OPEN_BUG_FORM:
       return { ...state, addbug: action.payload };
+
+    case ActionTypes.SHOW_BUG_DETAIL:
+      const { show, bug } = action.payload;
+      return {
+        ...state,
+        bugDetail: { ...state.bugDetail, show: show, bug: bug },
+      };
 
     case ActionTypes.ADD_BUG_TO_CATEGORY:
       const category = action.payload[0]['category'];
@@ -74,8 +89,8 @@ const bugReducer = (
           ...state,
           bugs: {
             ...state.bugs,
-            OPEN: { ...state.bugs.OPEN, ...mapkeys(action.payload, 'id') }
-          }
+            OPEN: { ...state.bugs.OPEN, ...mapkeys(action.payload, 'id') },
+          },
         };
       else if (category == bugTypes.IN_PROGRESS)
         return {
@@ -84,9 +99,9 @@ const bugReducer = (
             ...state.bugs,
             IN_PROGRESS: {
               ...state.bugs.IN_PROGRESS,
-              ...mapkeys(action.payload, 'id')
-            }
-          }
+              ...mapkeys(action.payload, 'id'),
+            },
+          },
         };
       else if (category == bugTypes.TEST_PENDING)
         return {
@@ -95,9 +110,9 @@ const bugReducer = (
             ...state.bugs,
             TEST_PENDING: {
               ...state.bugs.TEST_PENDING,
-              ...mapkeys(action.payload, 'id')
-            }
-          }
+              ...mapkeys(action.payload, 'id'),
+            },
+          },
         };
       else if (category == bugTypes.RE_OPENED)
         return {
@@ -106,17 +121,17 @@ const bugReducer = (
             ...state.bugs,
             RE_OPENED: {
               ...state.bugs.RE_OPENED,
-              ...mapkeys(action.payload, 'id')
-            }
-          }
+              ...mapkeys(action.payload, 'id'),
+            },
+          },
         };
       else if (category == bugTypes.CLOSED)
         return {
           ...state,
           bugs: {
             ...state.bugs,
-            CLOSED: { ...state.bugs.CLOSED, ...mapkeys(action.payload, 'id') }
-          }
+            CLOSED: { ...state.bugs.CLOSED, ...mapkeys(action.payload, 'id') },
+          },
         };
       else return state;
 
@@ -128,6 +143,19 @@ const bugReducer = (
       );
 
       return { ...state, bugs: { ...state.bugs, ...temp } };
+
+    case ActionTypes.ADD_NEW_NOTE:
+      const updatedNotes = state.bugDetail.bug.notes;
+      updatedNotes.push(action.payload);
+      console.log(action.payload);
+
+      return {
+        ...state,
+        bugDetail: {
+          ...state.bugDetail,
+          bug: { ...state.bugDetail.bug, notes: updatedNotes },
+        },
+      };
 
     default:
       return state;
