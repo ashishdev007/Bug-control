@@ -99,7 +99,9 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/notes', (req, res) => {
-  const { bugId, content } = req.body;
+  const { bugId } = req.body;
+  const content = fixString(req.body.content);
+
   var dateTime = new Date();
   dateTime = dateTime.toISOString();
 
@@ -107,9 +109,11 @@ router.post('/notes', (req, res) => {
     'INSERT INTO NOTES (bugId, content) ' +
     'VALUES (' +
     bugId +
-    ", '" +
+    ', "' +
     content +
-    "')";
+    '")';
+
+  console.log(query);
 
   connection.query(query, (error, results, fields) => {
     if (error) {
@@ -123,7 +127,8 @@ router.post('/notes', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { userid, title, description, category } = req.body;
+  const { userid, title, category } = req.body;
+  const description = fixString(req.body.description);
 
   const query =
     'INSERT INTO `BUGS` (`id`, `userid`, `title`, `description`, `category`) ' +
@@ -192,3 +197,7 @@ router.post('/modify', (req, res) => {
 });
 
 module.exports = router;
+
+const fixString = (string) => {
+  return string.replace(/"/g, '\\"');
+};
