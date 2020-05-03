@@ -5,93 +5,23 @@ import { bug } from '../../actions/types';
 import { ShowBugDetails, AddNewNote } from '../../actions/bugActions';
 import { StageHeadersObject } from '../stage/stageHeaders';
 
+import ViewNotes from './ViewNotes';
+
 import ModalForm from './BugDetailModal';
 
 export interface Props {
-  test: boolean;
+  // test: boolean;
 }
 
 export interface StateType {
-  notes: Array<any>;
-  getNotes: boolean;
   newNote: string;
 }
 
 class BugDetail extends React.Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
-    this.state = { notes: [], getNotes: true, newNote: '' };
+    this.state = { newNote: '' };
   }
-
-  componentDidUpdate(prevProps: PropsType, prevState: StateType) {
-    if (
-      !prevProps.show ||
-      (this.props.bug.notes &&
-        this.state.notes.length !== this.props.bug.notes.length)
-    ) {
-      this.getNotes();
-    }
-  }
-
-  getNotes = () => {
-    var i = 0;
-    var date = '';
-
-    var notes = this.props.bug.notes.map((item: any) => {
-      var itemDate = new Date(item.dateTime);
-      var tempDate = itemDate.toLocaleDateString();
-      var itemTime = itemDate.toLocaleTimeString();
-      itemTime =
-        itemTime.length === 11
-          ? itemTime.substring(0, 5) + itemTime.substring(9)
-          : itemTime.substring(0, 4) + itemTime.substring(8);
-      i++;
-
-      if (tempDate === date) {
-        return (
-          <div className="ui card RecentNote" key={i}>
-            <div className="content">
-              <div className="meta">{itemTime}</div>
-              <div className="description">{item.content}</div>
-            </div>
-          </div>
-        );
-      } else {
-        date = tempDate;
-        return (
-          <React.Fragment key={i}>
-            <div className="NoteDate">{date}</div>
-            <div className="ui card RecentNote">
-              <div className="content">
-                <div className="meta">{itemTime}</div>
-                <div className="description">{item.content}</div>
-              </div>
-            </div>
-          </React.Fragment>
-        );
-      }
-    });
-
-    this.setState({ notes: notes, getNotes: false });
-  };
-
-  showNotes = (no: number = this.state.notes.length) => {
-    var len = no <= this.state.notes.length ? no : this.state.notes.length;
-    var notes = this.state.notes.slice(0, len);
-
-    if (this.state.notes.length > 0) {
-      notes.push(
-        <a
-          href="#"
-          className="NoteDate SeeAllNotes"
-          onClick={this.seeAllNotesClick}
-        >
-          See All
-        </a>
-      );
-    }
-    return notes;
-  };
 
   newNote = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = event.target.value;
@@ -147,10 +77,7 @@ class BugDetail extends React.Component<PropsType, StateType> {
           </div>
         </div>
         <div style={{ display: 'flex', marginTop: '2%', minHeight: '50vh' }}>
-          <div className="RecentNotes">
-            <h3 className="header">Recent Notes</h3>
-            {this.showNotes(5)}
-          </div>
+          <ViewNotes />
           <div className="OtherActions">
             <div id="AddNoteHeader">Add Note</div>
             <textarea

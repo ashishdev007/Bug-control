@@ -110,17 +110,6 @@ router.post('/notes', (req, res) => {
     ", '" +
     content +
     "')";
-  // const query =
-  //   'INSERT INTO NOTES (bugId, content, dateTime) ' +
-  //   'VALUES (' +
-  //   bugId +
-  //   ", '" +
-  //   content +
-  //   "', '" +
-  //   dateTime +
-  //   "')";
-
-  console.log(query);
 
   connection.query(query, (error, results, fields) => {
     if (error) {
@@ -157,8 +146,27 @@ router.post('/', (req, res) => {
   });
 });
 
+router.put('/:id', (req, res) => {
+  const query =
+    'UPDATE BUGS SET category= "' +
+    req.body.newCategory +
+    '" where id = ' +
+    req.params.id +
+    ' ;';
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      res.json({ success: false });
+    } else {
+      res.json({ success: true });
+    }
+  });
+});
+
 router.delete('/:id', (req, res) => {
   const query = 'DELETE FROM BUGS WHERE id = ' + req.params.id;
+
+  console.log(query);
 
   connection.query(query, (error) => {
     if (error) res.send({ success: false });

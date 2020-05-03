@@ -145,15 +145,14 @@ const bugReducer = (
       return { ...state, bugs: { ...state.bugs, ...temp } };
 
     case ActionTypes.ADD_NEW_NOTE:
-      const updatedNotes = state.bugDetail.bug.notes;
-      updatedNotes.push(action.payload);
-      console.log(action.payload);
-
       return {
         ...state,
         bugDetail: {
           ...state.bugDetail,
-          bug: { ...state.bugDetail.bug, notes: updatedNotes },
+          bug: {
+            ...state.bugDetail.bug,
+            notes: [...state.bugDetail.bug.notes, action.payload],
+          },
         },
       };
 

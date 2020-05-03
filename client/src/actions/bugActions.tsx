@@ -46,6 +46,32 @@ export const AddBugToCategory = (bug: bug) => async (dispatch: any) => {
     });
 };
 
+export const ChangeCategory = (bug: bug, newCategory: string) => async (
+  dispatch: any
+) => {
+  const query = 'http://localhost:1500/bugs/' + bug.id;
+
+  fetch(query, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ newCategory }),
+  }).then((res) => {
+    dispatch({
+      type: ActionTypes.DELETE_BUG,
+      payload: bug,
+    });
+
+    bug.category = newCategory;
+
+    dispatch({
+      type: ActionTypes.ADD_BUG_TO_CATEGORY,
+      payload: [bug],
+    });
+  });
+};
+
 export const DeleteBug = (bug: bug) => async (dispatch: any) => {
   const query = 'http://localhost:1500/bugs/' + bug.id;
 

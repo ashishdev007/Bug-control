@@ -31,7 +31,7 @@ export class App extends Component<PropsType> {
         />
         <Stage stageType={StageHeaders.CLOSED} state={StageStates.CLOSED} />
         <AddBug />
-        <BugDetail test={false} />
+        <BugDetail />
       </div>
     );
   }
