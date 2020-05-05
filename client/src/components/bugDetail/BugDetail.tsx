@@ -6,6 +6,7 @@ import { ShowBugDetails, AddNewNote } from '../../actions/bugActions';
 import { StageHeadersObject } from '../stage/stageHeaders';
 
 import ViewNotes from './ViewNotes';
+import ShowAllNotes from './ShowAllNotes';
 
 import ModalForm from './BugDetailModal';
 
@@ -15,12 +16,13 @@ export interface Props {
 
 export interface StateType {
   newNote: string;
+  showAllNotes: boolean;
 }
 
 class BugDetail extends React.Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
-    this.state = { newNote: '' };
+    this.state = { newNote: '', showAllNotes: false };
   }
 
   newNote = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -121,11 +123,15 @@ class BugDetail extends React.Component<PropsType, StateType> {
 
   render() {
     if (this.props.show) {
-      return (
-        <div>
-          <ModalForm content={this.content} onDismiss={this.onDismiss} />
-        </div>
-      );
+      if (this.state.showAllNotes) {
+        return <ShowAllNotes />;
+      } else {
+        return (
+          <div>
+            <ModalForm content={this.content} onDismiss={this.onDismiss} />
+          </div>
+        );
+      }
     } else {
       return null;
     }

@@ -9,10 +9,11 @@ export interface ViewNotesPropsType {
 
 export interface StateType {
   notes: Array<any>;
+  type: string;
 }
 
 class ViewNotes extends React.Component<PropsType, StateType> {
-  state = { notes: [] };
+  state = { notes: [], type: 'RECENT' };
 
   componentDidMount() {
     this.getNotes();
@@ -90,13 +91,14 @@ class ViewNotes extends React.Component<PropsType, StateType> {
   };
 
   render() {
-    console.log(this.props);
-    return (
-      <div className="RecentNotes">
-        <h3 className="header">Recent Notes</h3>
-        {this.showNotes(5)}
-      </div>
-    );
+    if (this.state.type === 'RECENT') {
+      return (
+        <div className="RecentNotes">
+          <h3 className="header">Recent Notes</h3>
+          {this.showNotes(5)}
+        </div>
+      );
+    }
   }
 }
 
@@ -105,10 +107,7 @@ const mapStatetoProps = (state: any, ownProps: ViewNotesPropsType) => {
   return { notes };
 };
 
-const mapDispatchtoProps = {
-  // ShowBugDetails: ShowBugDetails,
-  // AddNewNote: AddNewNote,
-};
+const mapDispatchtoProps = {};
 
 const connector = connect(mapStatetoProps, mapDispatchtoProps);
 
