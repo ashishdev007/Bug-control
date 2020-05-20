@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { ConnectedProps, connect } from 'react-redux';
+import '../../public/ShowAllNotes.css';
+
+import { SeeAllNotes } from '../../actions/bugActions';
 
 import ModalForm from './BugDetailModal';
 
@@ -10,16 +13,21 @@ export interface ShowAllNotesState {
 }
 
 class ShowAllNotes extends React.Component<PropsType, ShowAllNotesState> {
-  state = { show: false };
-
   content = () => {
-    return <div className="AllNotes"></div>;
+    return (
+      <div className="AllNotes">
+        <p id="Notes">Notes</p>
+        {this.props.notes}
+      </div>
+    );
   };
 
-  onDismiss = () => {};
+  onDismiss = () => {
+    this.props.SeeAllNotes(false, []);
+  };
 
   render() {
-    if (this.state.show) {
+    if (this.props.show) {
       return (
         <div>
           <ModalForm content={this.content} onDismiss={this.onDismiss} />
@@ -32,11 +40,14 @@ class ShowAllNotes extends React.Component<PropsType, ShowAllNotesState> {
 }
 
 const mapStatetoProps = (state: any, ownProps: ShowAllNotesProps) => {
-  const { notes } = state.bugs.bugDetail.bug;
-  return { notes };
+  // const { notes } = state.bugs.bugDetail.bug;
+  const { notes, show } = state.bugs.bugDetail.seeAllNotes;
+  return { notes, show };
 };
 
-const mapDispatchtoProps = {};
+const mapDispatchtoProps = {
+  SeeAllNotes: SeeAllNotes,
+};
 
 const connector = connect(mapStatetoProps, mapDispatchtoProps);
 

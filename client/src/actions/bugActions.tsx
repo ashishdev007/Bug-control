@@ -144,3 +144,13 @@ export const AddNewNote = (bugId: number, content: string) => async (
       });
     });
 };
+
+export const SeeAllNotes = (
+  seeAllNotes: boolean,
+  notes: Array<React.ElementType>
+) => {
+  return {
+    type: ActionTypes.SEE_ALL_NOTES,
+    payload: { seeAllNotes, notes },
+  };
+};

@@ -20,6 +20,7 @@ interface stateType {
   bugDetail: {
     show: boolean;
     bug: bug | { notes?: any };
+    seeAllNotes: { show: boolean; notes: Array<React.ElementType> };
   };
 }
 
@@ -38,6 +39,7 @@ const INITIAL_STATE: stateType = {
   bugDetail: {
     show: false,
     bug: {},
+    seeAllNotes: { show: false, notes: [] },
   },
 };
 
@@ -152,6 +154,18 @@ const bugReducer = (
           bug: {
             ...state.bugDetail.bug,
             notes: [...state.bugDetail.bug.notes, action.payload],
+          },
+        },
+      };
+
+    case ActionTypes.SEE_ALL_NOTES:
+      return {
+        ...state,
+        bugDetail: {
+          ...state.bugDetail,
+          seeAllNotes: {
+            show: action.payload.seeAllNotes,
+            notes: action.payload.notes,
           },
         },
       };

@@ -7,6 +7,7 @@ export enum ActionTypes {
   DELETE_BUG = 'DELETE_BUG',
   SHOW_BUG_DETAIL = 'SHOW_BUG_DETAIL',
   ADD_NEW_NOTE = 'ADD_NEW_NOTE',
+  SEE_ALL_NOTES = 'SEE_ALL_NOTES',
 }
 
 export interface BaseAction {

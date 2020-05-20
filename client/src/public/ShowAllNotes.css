@@ -1,5 +1,34 @@
 .AllNotes {
+  min-height: 75vh;
   max-height: 85vh;
+  width: 100%;
   overflow: auto;
   font-family: 'Lato';
+  padding: 1% 2%;
+}
+
+#Notes {
+  text-align: center;
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 1.65em;
+}
+
+.AllNotes > .NoteDate {
+  margin-top: 2%;
+  margin-bottom: 1%;
+  text-decoration: underline;
+  color: #000000de;
+  width: fit-content;
+  font-style: italic;
+}
+
+.AllNotes > .RecentNote {
+  width: 100% !important;
+  margin-top: 1.25%;
+}
+
+.AllNotes > .RecentNote > .content > .description {
+  font-size: 1.15em;
+  color: rgba(0, 0, 0, 0.86);
 }

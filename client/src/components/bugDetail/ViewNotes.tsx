@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { bug } from '../../actions/types';
-// import { ShowBugDetails, AddNewNote } from '../../actions/bugActions';
+import { SeeAllNotes, ShowBugDetails } from '../../actions/bugActions';
 
 export interface ViewNotesPropsType {
   // notes?: Array<any>;
@@ -74,20 +74,16 @@ class ViewNotes extends React.Component<PropsType, StateType> {
 
     if (this.state.notes.length > 0) {
       notes.push(
-        <a
-          href="#"
-          className="NoteDate SeeAllNotes"
-          onClick={this.seeAllNotesClick}
-        >
+        <p className="NoteDate SeeAllNotes" onClick={this.seeAllNotesClick}>
           See All
-        </a>
+        </p>
       );
     }
     return notes;
   };
 
-  seeAllNotesClick = () => (event: any) => {
-    event.preventDefault();
+  seeAllNotesClick = () => {
+    this.props.SeeAllNotes(true, this.state.notes);
   };
 
   render() {
@@ -107,7 +103,10 @@ const mapStatetoProps = (state: any, ownProps: ViewNotesPropsType) => {
   return { notes };
 };
 
-const mapDispatchtoProps = {};
+const mapDispatchtoProps = {
+  SeeAllNotes: SeeAllNotes,
+  ShowBugDetails: ShowBugDetails,
+};
 
 const connector = connect(mapStatetoProps, mapDispatchtoProps);
 

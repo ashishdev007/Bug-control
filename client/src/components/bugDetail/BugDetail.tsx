@@ -109,10 +109,6 @@ class BugDetail extends React.Component<PropsType, StateType> {
     );
   };
 
-  seeAllNotesClick = () => (event: any) => {
-    event.preventDefault();
-  };
-
   actions = () => {
     return <React.Fragment></React.Fragment>;
   };
