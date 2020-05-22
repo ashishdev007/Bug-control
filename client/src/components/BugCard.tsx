@@ -18,13 +18,25 @@ export class BugCard extends Component<PropsType, StateType> {
   }
 
   componentDidMount() {
+    var description = this.trimDescription();
+    this.setState({ description: description });
+  }
+
+  componentDidUpdate(prevProps: PropsType, prevState: StateType) {
+    if (prevProps.description !== this.props.description) {
+      var description = this.trimDescription();
+      this.setState({ description: description });
+    }
+  }
+
+  trimDescription = () => {
     var description =
       this.props.description.length > 35
         ? this.props.description.substring(0, 35) + '...'
         : this.props.description.substring(0, this.props.description.length);
 
-    this.setState({ description: description });
-  }
+    return description;
+  };
 
   drag = (event: any) => {
     const { id, userid, title, description, category } = this.props;

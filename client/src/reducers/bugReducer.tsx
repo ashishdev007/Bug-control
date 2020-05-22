@@ -4,6 +4,7 @@ import {
   AddBugToCategoryReturnType,
 } from '../actions/bugActions';
 import { bugTypes } from '../bugTypes';
+import { StageStates } from './stageStates';
 import mapkeys from 'lodash.mapkeys';
 import omit from 'lodash.omit';
 
@@ -145,6 +146,29 @@ const bugReducer = (
       );
 
       return { ...state, bugs: { ...state.bugs, ...temp } };
+
+    case ActionTypes.CHANGE_BUG_DETAIL:
+      const id = action.payload.id;
+      for (let category in StageStates) {
+        const keys = Object.keys(state.bugs[category]);
+
+        if (keys.includes(id)) {
+          console.log(state.bugs[category]);
+          return {
+            ...state,
+            bugs: {
+              ...state.bugs,
+              [category]: {
+                ...state.bugs[category],
+                [id]: {
+                  ...state.bugs[category][id],
+                  [action.payload.update]: action.payload.data,
+                },
+              },
+            },
+          };
+        }
+      }
 
     case ActionTypes.ADD_NEW_NOTE:
       return {

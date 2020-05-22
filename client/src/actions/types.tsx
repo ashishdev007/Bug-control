@@ -6,8 +6,11 @@ export enum ActionTypes {
   FETCH_BUGS = 'FETCH_BUGS',
   DELETE_BUG = 'DELETE_BUG',
   SHOW_BUG_DETAIL = 'SHOW_BUG_DETAIL',
+  CHANGE_BUG_DETAIL = 'CHANGE_BUG_DETAIL',
   ADD_NEW_NOTE = 'ADD_NEW_NOTE',
   SEE_ALL_NOTES = 'SEE_ALL_NOTES',
+  SHOW_ALERT = 'SHOW_ALERT',
+  HIDE_ALERT = 'HIDE_ALERT',
 }
 
 export interface BaseAction {
@@ -24,4 +27,9 @@ export interface bug {
   reproducible?: string;
   severity?: string;
   notes?: any;
+}
+
+export enum updatableBugDetails {
+  description = 'description',
+  category = 'category',
 }

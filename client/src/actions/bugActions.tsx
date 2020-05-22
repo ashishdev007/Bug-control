@@ -56,7 +56,7 @@ export const ChangeCategory = (bug: bug, newCategory: string) => async (
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ newCategory }),
+    body: JSON.stringify({ update: 'CATEGORY', data: newCategory }),
   }).then((res) => {
     dispatch({
       type: ActionTypes.DELETE_BUG,
@@ -68,6 +68,26 @@ export const ChangeCategory = (bug: bug, newCategory: string) => async (
     dispatch({
       type: ActionTypes.ADD_BUG_TO_CATEGORY,
       payload: [bug],
+    });
+  });
+};
+
+export const EditBugDetails = (
+  bugId: string,
+  update: { update: string; data: any }
+) => async (dispatch: any) => {
+  const query = 'http://localhost:1500/bugs/' + bugId;
+
+  fetch(query, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(update),
+  }).then((res) => {
+    dispatch({
+      type: ActionTypes.CHANGE_BUG_DETAIL,
+      payload: { id: bugId, ...update },
     });
   });
 };
@@ -104,7 +124,6 @@ export const ShowBugDetails = (id: number, show: boolean) => async (
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         dispatch({
           type: ActionTypes.SHOW_BUG_DETAIL,
           payload: { show: true, bug: data },

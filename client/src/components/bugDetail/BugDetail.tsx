@@ -1,8 +1,13 @@
 import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import '../../public/BugDetail.css';
-import { bug } from '../../actions/types';
-import { ShowBugDetails, AddNewNote } from '../../actions/bugActions';
+import { bug, updatableBugDetails } from '../../actions/types';
+import {
+  ShowBugDetails,
+  AddNewNote,
+  EditBugDetails,
+} from '../../actions/bugActions';
+import { ShowAlert, HideAlert } from '../../actions/alertActions';
 import { StageHeadersObject } from '../stage/stageHeaders';
 
 import ViewNotes from './ViewNotes';
@@ -17,30 +22,74 @@ export interface Props {
 export interface StateType {
   newNote: string;
   showAllNotes: boolean;
+  changeDone: boolean;
+  editDescription: boolean;
+  description: string;
 }
 
 class BugDetail extends React.Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
-    this.state = { newNote: '', showAllNotes: false };
+    this.state = {
+      newNote: '',
+      showAllNotes: false,
+      changeDone: false,
+      editDescription: false,
+      description: '',
+    };
   }
 
-  newNote = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  componentDidUpdate(prevProps: PropsType, prevState: StateType) {
+    if (prevProps.bug.id !== this.props.bug.id) {
+      this.setState({ description: this.props.bug.description });
+    }
+  }
+
+  bodyClick = (event: React.MouseEvent<HTMLElement>) => {
+    this.setState({ editDescription: false });
+  };
+
+  descriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = event.target.value;
+
+    this.state.changeDone
+      ? this.setState({ description: value })
+      : this.setState({ changeDone: true, description: value });
+  };
+
+  editDescriptionClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    this.setState({ editDescription: true });
+  };
+
+  newNoteChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = event.target.value;
     this.setState({ newNote: value });
   };
 
-  addNewNote = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
+  addNoteButtonClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
     this.props.AddNewNote(this.props.bug.id, this.state.newNote);
     this.setState({ newNote: '' });
+  };
+
+  saveButtonClick = (event?: React.MouseEvent<HTMLElement>) => {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.props.EditBugDetails(`${this.props.bug.id}`, {
+      update: updatableBugDetails.description,
+      data: this.state.description,
+    });
+
+    this.setState({ editDescription: false, changeDone: false });
   };
 
   content = () => {
     const bug: bug = this.props.bug;
 
     return (
-      <div className="BugDetail">
+      <div className="BugDetail" onClick={this.bodyClick}>
         <div>
           <h1 className="ui header" id="BugDetailHeader">
             {bug.title}
@@ -48,9 +97,25 @@ class BugDetail extends React.Component<PropsType, StateType> {
           <p className="ui meta" id="BugDetailCategory">
             ({StageHeadersObject[bug.category]})
           </p>
-          <div className="ui raised segment">
-            <p className="BugDescription">{bug.description}</p>
-          </div>
+          {this.state.editDescription ? (
+            <textarea
+              name="EditDescription"
+              id="EditDescriptionTextArea"
+              onChange={this.descriptionChange}
+              onClick={(event) => event.stopPropagation()}
+              value={this.state.description}
+              rows={5}
+            ></textarea>
+          ) : (
+            <React.Fragment>
+              <div className="ui raised segment">
+                <p className="BugDescription">{this.state.description}</p>
+              </div>
+              <p id="EditDescription" onClick={this.editDescriptionClick}>
+                Edit Description
+              </p>
+            </React.Fragment>
+          )}
 
           <div className="BugFeatures">
             <div className="BugFeature">Bug Reproducible</div>
@@ -88,33 +153,49 @@ class BugDetail extends React.Component<PropsType, StateType> {
               cols={30}
               rows={10}
               value={this.state.newNote}
-              onChange={this.newNote}
+              onChange={this.newNoteChange}
             ></textarea>
             <div
               className="ui primary button"
               style={{ margin: 'auto' }}
-              onClick={this.addNewNote}
+              onClick={this.addNoteButtonClick}
             >
               Add Note
             </div>
-            <div
-              className="ui inverted green button"
-              style={{ marginLeft: 'auto' }}
-            >
-              Save
-            </div>
+            {this.state.changeDone ? (
+              <div
+                className="ui inverted green button"
+                id="SaveButton"
+                onClick={this.saveButtonClick}
+              >
+                Save
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
     );
   };
 
-  actions = () => {
-    return <React.Fragment></React.Fragment>;
+  onDismiss = () => {
+    if (this.state.changeDone) {
+      this.props.ShowAlert({
+        title: 'Save Changes?',
+        description: 'Do you want to save the changes?',
+        dismiss: this.closeDetail,
+      });
+    } else {
+      this.closeDetail(false);
+    }
   };
 
-  onDismiss = () => {
+  closeDetail = (save: boolean): void => {
+    if (save) {
+      this.saveButtonClick();
+    }
+    this.props.HideAlert();
     this.props.ShowBugDetails(0, false);
+    this.setState({ editDescription: false, changeDone: false });
   };
 
   render() {
@@ -142,6 +223,9 @@ const mapStatetoProps = (state: any, ownProps: Props) => {
 const mapDispatchtoProps = {
   ShowBugDetails: ShowBugDetails,
   AddNewNote: AddNewNote,
+  EditBugDetails: EditBugDetails,
+  ShowAlert: ShowAlert,
+  HideAlert: HideAlert,
 };
 
 const connector = connect(mapStatetoProps, mapDispatchtoProps);

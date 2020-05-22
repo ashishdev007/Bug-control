@@ -152,12 +152,24 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-  const query =
-    'UPDATE BUGS SET category= "' +
-    req.body.newCategory +
-    '" where id = ' +
-    req.params.id +
-    ' ;';
+  var query = '';
+
+  if (req.body.update === 'category') {
+    query =
+      'UPDATE BUGS SET category= "' +
+      req.body.data +
+      '" where id = ' +
+      req.params.id +
+      ' ;';
+  } else if (req.body.update === 'description') {
+    const description = fixString(req.body.data);
+    query =
+      'UPDATE BUGS SET description= "' +
+      description +
+      '" where id = ' +
+      req.params.id +
+      ' ;';
+  }
 
   connection.query(query, (error, results) => {
     if (error) {

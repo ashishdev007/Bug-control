@@ -17,14 +17,24 @@ class ShowAllNotes extends React.Component<PropsType, ShowAllNotesState> {
     return (
       <div className="AllNotes">
         <p id="Notes">Notes</p>
+        <button
+          id="CloseButton"
+          className="circular ui icon button"
+          onClick={this.close}
+        >
+          <i className="close icon"></i>
+        </button>
+
         {this.props.notes}
       </div>
     );
   };
 
-  onDismiss = () => {
+  close = () => {
     this.props.SeeAllNotes(false, []);
   };
+
+  onDismiss = () => {};
 
   render() {
     if (this.props.show) {

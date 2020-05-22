@@ -20,7 +20,6 @@ class ViewNotes extends React.Component<PropsType, StateType> {
   }
 
   componentDidUpdate(prevProps: PropsType, prevState: StateType) {
-    console.log('Something');
     if (this.state.notes.length !== this.props.notes.length) {
       this.getNotes();
     }

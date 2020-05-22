@@ -7,7 +7,8 @@ import { connect, ConnectedProps } from 'react-redux';
 import { FetchBugs } from '../actions/bugActions';
 
 import { StageHeaders } from './stage/stageHeaders';
-import { StageStates } from './stage/stageStates';
+import { StageStates } from '../reducers/stageStates';
+import Alert from './Alert';
 
 import './App.css';
 
@@ -34,6 +35,7 @@ export class App extends Component<PropsType> {
         <AddBug />
         <BugDetail />
         <ShowAllNotes />
+        <Alert />
       </div>
     );
   }

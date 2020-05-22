@@ -24,7 +24,10 @@ export class Stage extends Component<PropsType> {
   };
 
   getBugCards = () => {
-    return this.props.items.map((item: any) => {
+    console.log('Getting Cards');
+    const items = Object.values(this.props.items);
+    console.log(items);
+    return items.map((item: any) => {
       return (
         <BugCard
           key={item.id}
@@ -51,6 +54,8 @@ export class Stage extends Component<PropsType> {
   };
 
   render() {
+    console.log('Rerender');
+
     return (
       <div className="stage" onDrop={this.onDrop} onDragOver={this.allowDrop}>
         <div className="stageHead">
@@ -67,7 +72,7 @@ export class Stage extends Component<PropsType> {
 }
 
 const mapStatetoProps = (state: any, ownProps: OtherPropsType) => {
-  var items = Object.values(state.bugs.bugs[ownProps.state]);
+  var items = state.bugs.bugs[ownProps.state];
   var draggedBug = state.dragElement.draggedElement;
   return { items, draggedBug };
 };
