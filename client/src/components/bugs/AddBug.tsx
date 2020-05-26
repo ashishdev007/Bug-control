@@ -1,9 +1,9 @@
 import React, { Component, ReactElement } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
-import { OpenBugForm, AddBugToCategory } from '../actions/bugActions';
+import { OpenBugForm, AddBugToCategory } from '../../actions/bugActions';
 
-import ModalForm from '../modals/modalForm';
+import ModalForm from '../../modals/modalForm';
 
 type formState = {
   title: string;
@@ -29,7 +29,7 @@ export class AddBug extends Component<propsType, formState> {
       <React.Fragment>
         <form
           className="ui big form"
-          onSubmit={event => event.preventDefault()}
+          onSubmit={(event) => event.preventDefault()}
         >
           <div className="field">
             <label htmlFor="title">Title</label>
@@ -62,7 +62,7 @@ export class AddBug extends Component<propsType, formState> {
       title: this.state.title,
       description: this.state.description,
       id: 1,
-      userid: 1
+      userid: 1,
     });
     this.setState({ title: '', description: '' });
 
@@ -111,7 +111,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = {
   OpenBugForm: OpenBugForm,
-  AddBugToCategory: AddBugToCategory
+  AddBugToCategory: AddBugToCategory,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

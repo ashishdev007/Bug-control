@@ -14,11 +14,6 @@ var connection = mysql.createConnection({
   dateStrings: false,
 });
 
-function customException(status, message) {
-  this.status = status;
-  this.message = message;
-}
-
 // Login
 router.post('/login', (req, res) => {
   const { email, password } = req.body;

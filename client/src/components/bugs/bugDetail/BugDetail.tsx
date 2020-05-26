@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import '../../public/BugDetail.css';
-import { bug, updatableBugDetails } from '../../actions/types';
+import '../../../public/BugDetail.css';
+import { bug, updatableBugDetails } from '../../../actions/types';
 import {
   ShowBugDetails,
   AddNewNote,
   EditBugDetails,
-} from '../../actions/bugActions';
-import { ShowAlert, HideAlert } from '../../actions/alertActions';
-import { StageHeadersObject } from '../stage/stageHeaders';
+} from '../../../actions/bugActions';
+import { ShowAlert, HideAlert } from '../../../actions/alertActions';
+import { StageHeadersObject } from '../../stage/stageHeaders';
 
 import ViewNotes from './ViewNotes';
 import ShowAllNotes from './ShowAllNotes';

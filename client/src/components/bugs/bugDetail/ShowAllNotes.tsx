@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { ConnectedProps, connect } from 'react-redux';
-import '../../public/ShowAllNotes.css';
+import '../../../public/ShowAllNotes.css';
 
-import { SeeAllNotes } from '../../actions/bugActions';
+import { SeeAllNotes } from '../../../actions/bugActions';
 
 import ModalForm from './BugDetailModal';
 

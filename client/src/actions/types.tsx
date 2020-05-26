@@ -13,8 +13,19 @@ export enum ActionTypes {
   HIDE_ALERT = 'HIDE_ALERT',
 }
 
+export enum AuthActionTypes {
+  USER_LOADED = 'USER_LOADED',
+  USER_LOADING = 'USER_LOADING',
+  AUTH_ERROR = 'AUTH_ERROR',
+  LOGIN_SUCCESS = 'LOGIN_SUCCESS',
+  LOGIN_FAIL = 'LOGIN_FAIL',
+  LOGOUT_SUCCESS = 'LOGOUT_SUCCESS',
+  REGISTER_SUCCESS = 'REGISTER_SUCCESS',
+  REGISTER_FAIL = 'REGISTER_FAIL',
+}
+
 export interface BaseAction {
-  type: ActionTypes;
+  type: ActionTypes | AuthActionTypes;
   payload: any;
 }
 

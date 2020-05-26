@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { ShowBugDetails } from '../actions/bugActions';
-import { AddDraggedBug } from '../actions/dragActions';
-import { bug } from '../actions/types';
+import { ShowBugDetails } from '../../actions/bugActions';
+import { AddDraggedBug } from '../../actions/dragActions';
+import { bug } from '../../actions/types';
 
-import '../public/BugCard.css';
+import '../../public/BugCard.css';
 
 type StateType = {
   description: string;

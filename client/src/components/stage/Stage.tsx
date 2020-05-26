@@ -9,7 +9,7 @@ import {
 import { AddDraggedBug } from '../../actions/dragActions';
 import { bug } from '../../actions/types';
 
-import BugCard from '../BugCard';
+import BugCard from '../bugs/BugCard';
 import '../../public/stage.css';
 
 export class Stage extends Component<PropsType> {
@@ -24,9 +24,8 @@ export class Stage extends Component<PropsType> {
   };
 
   getBugCards = () => {
-    console.log('Getting Cards');
     const items = Object.values(this.props.items);
-    console.log(items);
+
     return items.map((item: any) => {
       return (
         <BugCard
@@ -54,8 +53,6 @@ export class Stage extends Component<PropsType> {
   };
 
   render() {
-    console.log('Rerender');
-
     return (
       <div className="stage" onDrop={this.onDrop} onDragOver={this.allowDrop}>
         <div className="stageHead">

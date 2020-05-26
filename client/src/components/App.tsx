@@ -1,40 +1,30 @@
 import React, { Component } from 'react';
-import Stage from './stage/Stage';
-import AddBug from './AddBug';
-import BugDetail from './bugDetail/BugDetail';
-import ShowAllNotes from './bugDetail/ShowAllNotes';
+import { Router, Route } from 'react-router-dom';
+import history from '../history';
+
 import { connect, ConnectedProps } from 'react-redux';
 import { FetchBugs } from '../actions/bugActions';
+import { LoadUser } from '../actions/authActions';
 
-import { StageHeaders } from './stage/stageHeaders';
-import { StageStates } from '../reducers/stageStates';
+import LandingPage from './landing/Landing';
 import Alert from './Alert';
 
-import './App.css';
+import Home from './Home';
+import Signup from './landing/Singnup';
 
 export class App extends Component<PropsType> {
-  render() {
-    this.props.FetchBugs();
+  componentDidMount() {
+    this.props.LoadUser();
+  }
 
+  render() {
     return (
       <div className="App">
-        <Stage stageType={StageHeaders.OPEN} state={StageStates.OPEN} />
-        <Stage
-          stageType={StageHeaders.IN_PROGRESS}
-          state={StageStates.IN_PROGRESS}
-        />
-        <Stage
-          stageType={StageHeaders.TEST_PENDING}
-          state={StageStates.TEST_PENDING}
-        />
-        <Stage
-          stageType={StageHeaders.RE_OPENED}
-          state={StageStates.RE_OPENED}
-        />
-        <Stage stageType={StageHeaders.CLOSED} state={StageStates.CLOSED} />
-        <AddBug />
-        <BugDetail />
-        <ShowAllNotes />
+        <Router history={history}>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/login" component={LandingPage} />
+          <Route exact path="/Signup" component={Signup} />
+        </Router>
         <Alert />
       </div>
     );
@@ -54,6 +44,7 @@ const mapStatetoProps = (state: any, ownProps: OtherPropsType) => {
 
 const mapDispatchtoProps = {
   FetchBugs: FetchBugs,
+  LoadUser: LoadUser,
 };
 
 const connector = connect(mapStatetoProps, mapDispatchtoProps);
