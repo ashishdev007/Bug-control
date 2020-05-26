@@ -85,15 +85,21 @@ router.post('/', (req, res) => {
                     'INSERT INTO USERS(email, password, fname, lname) values(?,?,?,?)',
                   values: [email, password, fname, lname],
                 },
-                (error, results) => {
+                (error, results, fields) => {
                   if (error) {
                     res
                       .status(403)
                       .json({ msg: 'Something went wrong! Please try again' });
                   } else {
-                    return res
-                      .status(200)
-                      .json({ msg: 'User Successfully added' });
+                    var token = jwt.sign(
+                      { id: results.insertId },
+                      process.env.jwtSecret
+                    );
+                    return res.status(200).json({
+                      msg: 'User Successfully added',
+                      token,
+                      user: { userId: results.insertId, email, fname, lname },
+                    });
                   }
                 }
               );

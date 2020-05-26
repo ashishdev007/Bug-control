@@ -34,6 +34,14 @@ const authReducer = (state: stateType = INITIAL_STATE, action: BaseAction) => {
     case AuthActionTypes.LOGIN_SUCCESS:
       return { ...state, isAuthenticated: true, token: action.payload };
 
+    case AuthActionTypes.REGISTER_SUCCESS:
+      return {
+        ...state,
+        isAuthenticated: true,
+        user: action.payload.user,
+        token: action.payload.token,
+      };
+
     case AuthActionTypes.LOGIN_FAIL:
     case AuthActionTypes.AUTH_ERROR:
     case AuthActionTypes.REGISTER_FAIL:

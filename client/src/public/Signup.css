@@ -1,0 +1,23 @@
+.SignUp {
+  display: flex;
+  flex-direction: column;
+}
+
+.SignUp > h1 {
+  margin: 8% auto 2% !important;
+  /* margin-top: 10% !important; */
+}
+
+.SignUp > form {
+  margin: auto;
+  width: 30%;
+}
+
+.NameField {
+  display: inline-block;
+  width: 49%;
+}
+
+#fname {
+  margin-right: 2% !important;
+}

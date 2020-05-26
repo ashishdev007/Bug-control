@@ -27,6 +27,34 @@ export const LogInUser = (email: string, password: string) => async (
     });
 };
 
+export const SignUpUser = (
+  email: string,
+  password: string,
+  fname: string,
+  lname: string
+) => async (dispatch: any) => {
+  fetch('http://localhost:1500/users/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password, fname, lname }),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw res.json();
+      }
+    })
+    .then((data) => {
+      dispatch({ type: AuthActionTypes.REGISTER_SUCCESS, payload: data });
+    })
+    .catch((err) => {
+      dispatch({ type: AuthActionTypes.REGISTER_FAIL });
+    });
+};
+
 export const LoadUser = () => async (dispatch: any) => {
   var token: string = localStorage.getItem('auth-token') || '';
 
