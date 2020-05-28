@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 var mysql = require('mysql');
+var nodemailer = require('nodemailer');
 
 const authentication = require('../middleware/authentication');
 
@@ -12,6 +13,14 @@ var connection = mysql.createConnection({
   password: 'asdf',
   database: 'Users',
   dateStrings: false,
+});
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.SENDER_EMAIL,
+    pass: process.env.SENDER_EMAIL_PASSWORD,
+  },
 });
 
 // Login
@@ -93,12 +102,30 @@ router.post('/', (req, res) => {
                   } else {
                     var token = jwt.sign(
                       { id: results.insertId },
-                      process.env.jwtSecret
+                      process.env.jwtEmailSecret,
+                      { expiresIn: 60 * 10 }
                     );
+
+                    const authLink =
+                      'http://localhost:3000/users/user/authentication/' +
+                      token;
+
+                    const mailOptions = {
+                      from: `${process.env.SENDER_EMAIL}`, // sender address
+                      to: `${email}`, // list of receivers
+                      subject: 'Email Authentication', // Subject line
+                      html: `<p>Click <a href=${authLink}>here</a> to activate your account!</p>`, // plain text body
+                    };
+
+                    transporter.sendMail(mailOptions, function (err, info) {
+                      if (err) console.log(err);
+                      else console.log(info);
+                    });
+
                     return res.status(200).json({
-                      msg: 'User Successfully added',
-                      token,
-                      user: { userId: results.insertId, email, fname, lname },
+                      msg: 'Email Authentication Required',
+                      // token,
+                      // user: { userId: results.insertId, email, fname, lname },
                     });
                   }
                 }
@@ -108,6 +135,33 @@ router.post('/', (req, res) => {
         }
       }
     );
+  }
+});
+
+router.get('/user/authentication/:token', (req, res) => {
+  const token = req.params.token;
+
+  try {
+    const decoded = jwt.verify(token, process.env.jwtEmailSecret);
+    const user = decoded;
+
+    connection.query(
+      {
+        sql: 'UPDATE USERS SET Authenticated = ? WHERE id = ?',
+        values: [true, user.id],
+      },
+      (error, results) => {
+        if (error) {
+          res
+            .status(403)
+            .json({ msg: 'Something went wrong! Please try again' });
+        } else {
+          res.status(200).json({ msg: 'User Authenticated' });
+        }
+      }
+    );
+  } catch (error) {
+    res.status(400).json({ msg: 'Invalid Token' });
   }
 });
 
