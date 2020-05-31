@@ -21,3 +21,18 @@
 #fname {
   margin-right: 2% !important;
 }
+
+.SignUp > .authIcon {
+  margin: auto;
+  font-size: 10em;
+  margin-top: 10%;
+  color: #00b5ad;
+  margin-bottom: -2%;
+}
+
+.icon + .authPara {
+  margin: auto;
+  font-size: 1.5em;
+  font-weight: 100;
+  font-family: lato;
+}

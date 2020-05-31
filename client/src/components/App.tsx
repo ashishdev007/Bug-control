@@ -11,6 +11,7 @@ import Alert from './Alert';
 
 import Home from './Home';
 import Signup from './landing/Singnup';
+import EmailAuth from './landing/EmailAuthentication';
 
 export class App extends Component<PropsType> {
   componentDidMount() {
@@ -24,6 +25,10 @@ export class App extends Component<PropsType> {
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={LandingPage} />
           <Route exact path="/Signup" component={Signup} />
+          <Route
+            path="/Signup/authentication/:emailAuthToken"
+            component={EmailAuth}
+          />
         </Router>
         <Alert />
       </div>

@@ -107,8 +107,7 @@ router.post('/', (req, res) => {
                     );
 
                     const authLink =
-                      'http://localhost:3000/users/user/authentication/' +
-                      token;
+                      'http://localhost:3000/signup/authentication/' + token;
 
                     const mailOptions = {
                       from: `${process.env.SENDER_EMAIL}`, // sender address
@@ -138,8 +137,9 @@ router.post('/', (req, res) => {
   }
 });
 
-router.get('/user/authentication/:token', (req, res) => {
-  const token = req.params.token;
+// Email Authentication
+router.post('/user/authentication', (req, res) => {
+  const token = req.body.token;
 
   try {
     const decoded = jwt.verify(token, process.env.jwtEmailSecret);

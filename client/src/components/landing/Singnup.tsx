@@ -9,7 +9,7 @@ import { connect, ConnectedProps } from 'react-redux';
 export interface SignupState {}
 
 class Signup extends React.Component<SignupProps, SignupState> {
-  state = { email: '', password: '', fname: '', lname: '' };
+  state = { email: '', password: '', fname: '', lname: '', submitted: false };
 
   componentDidMount() {
     if (this.props.isAuthenticated) {
@@ -37,63 +37,80 @@ class Signup extends React.Component<SignupProps, SignupState> {
     event.preventDefault();
     const { email, password, fname, lname } = this.state;
 
-    this.setState({ email: '', password: '', fname: '', lname: '' });
+    this.setState({
+      email: '',
+      password: '',
+      fname: '',
+      lname: '',
+      submitted: true,
+    });
 
     this.props.SignUpUser(email, password, fname, lname);
   };
 
   render() {
-    return (
-      <div className="SignUp">
-        <h1 className="ui header">Create A New Account</h1>
-        <form className="ui big form" onSubmit={this.onSubmit}>
-          <div className="field NameField" id="fname">
-            <label htmlFor="fname">First Name</label>
-            <input
-              type="text"
-              name="fname"
-              value={this.state.fname}
-              onChange={this.handleInputChange}
-            />
-          </div>
-          <div className="field NameField">
-            <label htmlFor="lname">Last Name</label>
-            <input
-              type="text"
-              name="lname"
-              value={this.state.lname}
-              onChange={this.handleInputChange}
-            />
-          </div>
-          <div className="field">
-            <label htmlFor="email">Email</label>
-            <input
-              type="text"
-              name="email"
-              value={this.state.email}
-              onChange={this.handleInputChange}
-            />
-          </div>
-          <div className="field">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handleInputChange}
-            />
-          </div>
-          <div
-            className="ui large teal right labeled icon button"
-            id="LoginButton"
-            onClick={this.onSubmit}
-          >
-            Login
-            <i className="checkmark icon"></i>
-          </div>
-        </form>
-      </div>
-    );
+    if (this.state.submitted) {
+      return (
+        <div className="SignUp">
+          <i className="envelope outline icon authIcon"></i>
+          <p className="authPara">
+            Please check your email for an authentication link.
+          </p>
+        </div>
+      );
+    } else {
+      return (
+        <div className="SignUp">
+          <h1 className="ui header">Create A New Account</h1>
+          <form className="ui big form" onSubmit={this.onSubmit}>
+            <div className="field NameField" id="fname">
+              <label htmlFor="fname">First Name</label>
+              <input
+                type="text"
+                name="fname"
+                value={this.state.fname}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="field NameField">
+              <label htmlFor="lname">Last Name</label>
+              <input
+                type="text"
+                name="lname"
+                value={this.state.lname}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="email">Email</label>
+              <input
+                type="text"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div
+              className="ui large teal right labeled icon button"
+              id="LoginButton"
+              onClick={this.onSubmit}
+            >
+              Signup
+              <i className="checkmark icon"></i>
+            </div>
+          </form>
+        </div>
+      );
+    }
   }
 }
 
