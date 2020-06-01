@@ -6,6 +6,7 @@ import {
   ShowBugDetails,
   AddNewNote,
   EditBugDetails,
+  DeleteBug,
 } from '../../../actions/bugActions';
 import { ShowAlert, HideAlert } from '../../../actions/alertActions';
 import { StageHeadersObject } from '../../stage/stageHeaders';
@@ -85,6 +86,26 @@ class BugDetail extends React.Component<PropsType, StateType> {
     this.setState({ editDescription: false, changeDone: false });
   };
 
+  deleteButtonClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+
+    const deleteConfirmed = (confirm: boolean) => {
+      if (confirm) {
+        this.props.DeleteBug(this.props.bug);
+        this.closeBugDetail(false);
+      } else {
+        this.props.HideAlert();
+      }
+    };
+
+    this.props.ShowAlert({
+      title: 'Confirm Delete',
+      description: 'Are you sure you want to delete this bug?',
+      icon: 'trash alternate',
+      dismiss: deleteConfirmed,
+    });
+  };
+
   content = () => {
     const bug: bug = this.props.bug;
 
@@ -157,20 +178,28 @@ class BugDetail extends React.Component<PropsType, StateType> {
             ></textarea>
             <div
               className="ui primary button"
-              style={{ margin: 'auto' }}
+              id="AddNewNoteButton"
               onClick={this.addNoteButtonClick}
             >
               Add Note
             </div>
-            {this.state.changeDone ? (
-              <div
-                className="ui inverted green button"
-                id="SaveButton"
-                onClick={this.saveButtonClick}
+            <div id="ActionButtons">
+              <button
+                className="ui red button"
+                onClick={this.deleteButtonClick}
               >
-                Save
-              </div>
-            ) : null}
+                Delete
+              </button>
+              {this.state.changeDone ? (
+                <div
+                  className="ui inverted green button"
+                  id="SaveButton"
+                  onClick={this.saveButtonClick}
+                >
+                  Save
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>
@@ -182,14 +211,15 @@ class BugDetail extends React.Component<PropsType, StateType> {
       this.props.ShowAlert({
         title: 'Save Changes?',
         description: 'Do you want to save the changes?',
-        dismiss: this.closeDetail,
+        icon: 'save',
+        dismiss: this.closeBugDetail,
       });
     } else {
-      this.closeDetail(false);
+      this.closeBugDetail(false);
     }
   };
 
-  closeDetail = (save: boolean): void => {
+  closeBugDetail = (save: boolean): void => {
     if (save) {
       this.saveButtonClick();
     }
@@ -226,6 +256,7 @@ const mapDispatchtoProps = {
   EditBugDetails: EditBugDetails,
   ShowAlert: ShowAlert,
   HideAlert: HideAlert,
+  DeleteBug,
 };
 
 const connector = connect(mapStatetoProps, mapDispatchtoProps);

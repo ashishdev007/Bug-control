@@ -50,7 +50,6 @@ export const ChangeCategory = (bug: bug, newCategory: string) => async (
   dispatch: any
 ) => {
   const query = 'http://localhost:1500/bugs/' + bug.id;
-  console.log(query);
 
   fetch(query, {
     method: 'PUT',
@@ -96,10 +95,12 @@ export const EditBugDetails = (
 export const DeleteBug = (bug: bug) => async (dispatch: any) => {
   const query = 'http://localhost:1500/bugs/' + bug.id;
 
+  const { id, category } = bug;
+
   fetch(query, { method: 'DELETE' }).then((res) => {
     dispatch({
       type: ActionTypes.DELETE_BUG,
-      payload: bug,
+      payload: { id, category },
     });
   });
 };

@@ -4,6 +4,7 @@ export interface stateType {
   show: boolean;
   title: string;
   description: string;
+  icon: string | null;
   dismiss: ((show: boolean) => void) | null;
 }
 
@@ -11,6 +12,7 @@ const INITIAL_STATE: stateType = {
   show: false,
   title: '',
   description: '',
+  icon: null,
   dismiss: null,
 };
 

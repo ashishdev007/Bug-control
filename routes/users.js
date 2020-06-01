@@ -47,9 +47,11 @@ router.post('/login', (req, res) => {
           bcrypt.compare(password, user.password).then((match) => {
             if (!match) {
               return res.status(400).json({ msg: 'Invalid Credentials' });
-            } else {
+            } else if (user.Authenticated) {
               var token = jwt.sign({ id: user.id }, process.env.jwtSecret);
-              res.json({ token });
+              res.status(200).json({ token });
+            } else {
+              res.status(400).json({ msg: 'Email Authentication Required' });
             }
           });
         } catch (err) {

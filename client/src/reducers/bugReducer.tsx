@@ -99,13 +99,18 @@ const bugReducer = (
       };
 
     case ActionTypes.DELETE_BUG:
-      const temp = state.bugs;
-      temp[action.payload.category] = omit(
-        temp[action.payload.category],
-        action.payload.id
-      );
+      const delId = action.payload.id;
+      const delCat = action.payload.category;
+      // const temp = state.bugs;
+      // temp[action.payload.category] = omit(
+      //   temp[action.payload.category],
+      //   action.payload.id
+      // );
 
-      return { ...state, bugs: { ...state.bugs, ...temp } };
+      return {
+        ...state,
+        bugs: { ...state.bugs, [delCat]: omit(state.bugs[delCat], delId) },
+      };
 
     case ActionTypes.CHANGE_BUG_DETAIL:
       const id = action.payload.id;

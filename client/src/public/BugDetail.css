@@ -63,7 +63,7 @@
 
 .RecentNotes {
   width: 50%;
-  height: 48vh;
+  height: 49vh;
   overflow: auto;
 
   display: flex;
@@ -142,13 +142,21 @@
   margin: 1.5% 0;
 }
 
+.OtherActions {
+  display: flex;
+  height: 49vh;
+}
 .OtherActions > .button {
   display: block;
   width: fit-content;
 }
 
-#SaveButton {
-  position: absolute;
-  bottom: 4%;
-  right: 4%;
+#AddNewNoteButton {
+  margin: auto;
+  margin-top: 5%;
+}
+
+#ActionButtons {
+  display: flex;
+  justify-content: right;
 }

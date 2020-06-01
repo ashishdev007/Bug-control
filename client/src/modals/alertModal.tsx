@@ -2,12 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AlertType } from '../actions/alertActions';
 
-const AlertModal: React.FC<AlertType> = ({ title, description, dismiss }) => {
+const AlertModal: React.FC<AlertType> = ({
+  title,
+  description,
+  icon,
+  dismiss,
+}) => {
   return ReactDOM.createPortal(
     <div className="ui dimmer modals visible active">
       <div className="ui icon header" style={{ color: 'white' }}>
-        <i className="save icon"></i>
-
+        {icon ? <i className={`${icon} icon`}></i> : null}
         {title}
       </div>
       <div className="content">
