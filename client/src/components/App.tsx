@@ -3,7 +3,6 @@ import { Router, Route } from 'react-router-dom';
 import history from '../history';
 
 import { connect, ConnectedProps } from 'react-redux';
-import { FetchBugs } from '../actions/bugActions';
 import { LoadUser } from '../actions/authActions';
 
 import LandingPage from './landing/Landing';
@@ -48,7 +47,6 @@ const mapStatetoProps = (state: any, ownProps: OtherPropsType) => {
 };
 
 const mapDispatchtoProps = {
-  FetchBugs: FetchBugs,
   LoadUser: LoadUser,
 };
 

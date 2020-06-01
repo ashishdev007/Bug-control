@@ -50,13 +50,14 @@ export const ChangeCategory = (bug: bug, newCategory: string) => async (
   dispatch: any
 ) => {
   const query = 'http://localhost:1500/bugs/' + bug.id;
+  console.log(query);
 
   fetch(query, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ update: 'CATEGORY', data: newCategory }),
+    body: JSON.stringify({ update: 'category', data: newCategory }),
   }).then((res) => {
     dispatch({
       type: ActionTypes.DELETE_BUG,

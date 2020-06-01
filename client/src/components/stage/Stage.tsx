@@ -7,18 +7,11 @@ import {
   DeleteBug,
 } from '../../actions/bugActions';
 import { AddDraggedBug } from '../../actions/dragActions';
-import { bug } from '../../actions/types';
 
 import BugCard from '../bugs/BugCard';
 import '../../public/stage.css';
 
 export class Stage extends Component<PropsType> {
-  constructor(props: PropsType) {
-    super(props);
-  }
-
-  componentDidUpdate(prevProps: PropsType) {}
-
   addButtonClick = () => {
     this.props.OpenBugForm(true, this.props.state);
   };
@@ -53,11 +46,15 @@ export class Stage extends Component<PropsType> {
   };
 
   render() {
+    const noOfItems = Object.keys(this.props.items).length;
+
     return (
       <div className="stage" onDrop={this.onDrop} onDragOver={this.allowDrop}>
         <div className="stageHead">
           <h1 className="stageName">{this.props.stageType}</h1>
-          <p className="stageNoItems">10 Items</p>
+          <p className="stageNoItems">
+            {noOfItems === 1 ? `${noOfItems} Item` : `${noOfItems} Items`}
+          </p>
         </div>
         <button className="fluid ui icon button" onClick={this.addButtonClick}>
           <i className="plus icon"></i>

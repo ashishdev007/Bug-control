@@ -1,4 +1,4 @@
-import { AuthActionTypes, BaseAction, bug } from './types';
+import { AuthActionTypes } from './types';
 
 export const LogInUser = (email: string, password: string) => async (
   dispatch: any

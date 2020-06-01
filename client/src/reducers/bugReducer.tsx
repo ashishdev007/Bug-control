@@ -87,56 +87,16 @@ const bugReducer = (
     case ActionTypes.ADD_BUG_TO_CATEGORY:
       const category = action.payload[0]['category'];
 
-      if (category == bugTypes.OPEN)
-        return {
-          ...state,
-          bugs: {
-            ...state.bugs,
-            OPEN: { ...state.bugs.OPEN, ...mapkeys(action.payload, 'id') },
+      return {
+        ...state,
+        bugs: {
+          ...state.bugs,
+          [category]: {
+            ...state.bugs[category],
+            ...mapkeys(action.payload, 'id'),
           },
-        };
-      else if (category == bugTypes.IN_PROGRESS)
-        return {
-          ...state,
-          bugs: {
-            ...state.bugs,
-            IN_PROGRESS: {
-              ...state.bugs.IN_PROGRESS,
-              ...mapkeys(action.payload, 'id'),
-            },
-          },
-        };
-      else if (category == bugTypes.TEST_PENDING)
-        return {
-          ...state,
-          bugs: {
-            ...state.bugs,
-            TEST_PENDING: {
-              ...state.bugs.TEST_PENDING,
-              ...mapkeys(action.payload, 'id'),
-            },
-          },
-        };
-      else if (category == bugTypes.RE_OPENED)
-        return {
-          ...state,
-          bugs: {
-            ...state.bugs,
-            RE_OPENED: {
-              ...state.bugs.RE_OPENED,
-              ...mapkeys(action.payload, 'id'),
-            },
-          },
-        };
-      else if (category == bugTypes.CLOSED)
-        return {
-          ...state,
-          bugs: {
-            ...state.bugs,
-            CLOSED: { ...state.bugs.CLOSED, ...mapkeys(action.payload, 'id') },
-          },
-        };
-      else return state;
+        },
+      };
 
     case ActionTypes.DELETE_BUG:
       const temp = state.bugs;
@@ -153,7 +113,6 @@ const bugReducer = (
         const keys = Object.keys(state.bugs[category]);
 
         if (keys.includes(id)) {
-          console.log(state.bugs[category]);
           return {
             ...state,
             bugs: {
@@ -169,6 +128,8 @@ const bugReducer = (
           };
         }
       }
+
+      return { ...state };
 
     case ActionTypes.ADD_NEW_NOTE:
       return {

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { bug } from '../../../actions/types';
 import { SeeAllNotes, ShowBugDetails } from '../../../actions/bugActions';
 
 export interface ViewNotesPropsType {

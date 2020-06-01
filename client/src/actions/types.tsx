@@ -11,6 +11,7 @@ export enum ActionTypes {
   SEE_ALL_NOTES = 'SEE_ALL_NOTES',
   SHOW_ALERT = 'SHOW_ALERT',
   HIDE_ALERT = 'HIDE_ALERT',
+  test = 'test',
 }
 
 export enum AuthActionTypes {

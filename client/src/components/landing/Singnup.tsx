@@ -1,5 +1,4 @@
 import React from 'react';
-import BugImage from '../../public/bug.png';
 import { SignUpUser } from '../../actions/authActions';
 
 import '../../public/Signup.css';

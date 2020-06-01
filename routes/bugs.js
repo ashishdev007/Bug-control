@@ -191,23 +191,6 @@ router.delete('/:id', (req, res) => {
   });
 });
 
-router.post('/modify', (req, res) => {
-  const query =
-    'UPDATE BUGS SET category = "' +
-    req.body.newCategory +
-    '" where id = ' +
-    req.body.id;
-
-  connection.query(query, (error, results) => {
-    if (error) res.send({ success: false });
-    else if (results.affectedRows == 0) {
-      res.send({ success: false });
-    } else {
-      res.send({ success: true });
-    }
-  });
-});
-
 module.exports = router;
 
 const fixString = (string) => {

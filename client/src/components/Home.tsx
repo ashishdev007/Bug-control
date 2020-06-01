@@ -15,12 +15,10 @@ export interface HomeState {}
 
 class Home extends React.Component<HomeProps, HomeState> {
   componentDidMount() {
-    console.log('this.props.isAuthenticated');
-    console.log(this.props.isAuthenticated);
-
     if (!this.props.isAuthenticated) {
       history.push('/login');
     }
+    this.props.FetchBugs();
   }
 
   componentDidUpdate() {
@@ -30,7 +28,6 @@ class Home extends React.Component<HomeProps, HomeState> {
   }
 
   render() {
-    this.props.FetchBugs();
     return (
       <div className="Home">
         <Stage stageType={StageHeaders.OPEN} state={StageStates.OPEN} />
