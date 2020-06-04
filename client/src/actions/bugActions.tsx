@@ -46,49 +46,35 @@ export const AddBugToCategory = (bug: bug) => async (dispatch: any) => {
     });
 };
 
-export const ChangeCategory = (bug: bug, newCategory: string) => async (
+export const EditBugDetails = (updatedBug: bug, update?: string) => async (
   dispatch: any
 ) => {
-  const query = 'http://localhost:1500/bugs/' + bug.id;
+  const query = 'http://localhost:1500/bugs/' + updatedBug.id;
+  console.log(update);
 
   fetch(query, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ update: 'category', data: newCategory }),
-  }).then((res) => {
-    dispatch({
-      type: ActionTypes.DELETE_BUG,
-      payload: bug,
-    });
-
-    bug.category = newCategory;
-
-    dispatch({
-      type: ActionTypes.ADD_BUG_TO_CATEGORY,
-      payload: [bug],
-    });
-  });
-};
-
-export const EditBugDetails = (
-  bugId: string,
-  update: { update: string; data: any }
-) => async (dispatch: any) => {
-  const query = 'http://localhost:1500/bugs/' + bugId;
-
-  fetch(query, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(update),
+    body: JSON.stringify({ bug: updatedBug }),
   }).then((res) => {
     dispatch({
       type: ActionTypes.CHANGE_BUG_DETAIL,
-      payload: { id: bugId, ...update },
+      payload: updatedBug,
     });
+
+    if (update === 'category') {
+      dispatch({
+        type: ActionTypes.DELETE_BUG,
+        payload: updatedBug,
+      });
+
+      dispatch({
+        type: ActionTypes.ADD_BUG_TO_CATEGORY,
+        payload: [updatedBug],
+      });
+    }
   });
 };
 

@@ -99,13 +99,16 @@ const bugReducer = (
       };
 
     case ActionTypes.DELETE_BUG:
-      const delId = action.payload.id;
-      const delCat = action.payload.category;
-      // const temp = state.bugs;
-      // temp[action.payload.category] = omit(
-      //   temp[action.payload.category],
-      //   action.payload.id
-      // );
+      const delId = `${action.payload.id}`;
+      var delCat = '';
+
+      for (let category in StageStates) {
+        const keys = Object.keys(state.bugs[category]);
+
+        if (keys.includes(delId)) {
+          delCat = category;
+        }
+      }
 
       return {
         ...state,
@@ -117,7 +120,7 @@ const bugReducer = (
       for (let category in StageStates) {
         const keys = Object.keys(state.bugs[category]);
 
-        if (keys.includes(id)) {
+        if (keys.includes(`${id}`)) {
           return {
             ...state,
             bugs: {
@@ -126,7 +129,7 @@ const bugReducer = (
                 ...state.bugs[category],
                 [id]: {
                   ...state.bugs[category][id],
-                  [action.payload.update]: action.payload.data,
+                  ...action.payload,
                 },
               },
             },

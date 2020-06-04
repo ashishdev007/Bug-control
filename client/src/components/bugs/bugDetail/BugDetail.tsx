@@ -9,7 +9,8 @@ import {
   DeleteBug,
 } from '../../../actions/bugActions';
 import { ShowAlert, HideAlert } from '../../../actions/alertActions';
-import { StageHeadersObject } from '../../stage/stageHeaders';
+import { StageHeaders, StageHeadersObject } from '../../stage/stageHeaders';
+import { StageStates } from '../../../reducers/stageStates';
 
 import ViewNotes from './ViewNotes';
 import ShowAllNotes from './ShowAllNotes';
@@ -26,23 +27,31 @@ export interface StateType {
   changeDone: boolean;
   editDescription: boolean;
   description: string;
+  category: string;
+  severity: string;
+  reproducible: string;
 }
 
-class BugDetail extends React.Component<PropsType, StateType> {
-  constructor(props: PropsType) {
-    super(props);
-    this.state = {
-      newNote: '',
-      showAllNotes: false,
-      changeDone: false,
-      editDescription: false,
-      description: '',
-    };
-  }
+class BugDetail extends React.Component<PropsType> {
+  state = {
+    newNote: '',
+    showAllNotes: false,
+    changeDone: false,
+    editDescription: false,
+    description: '',
+    category: '',
+    severity: '',
+    reproducible: '',
+  };
 
   componentDidUpdate(prevProps: PropsType, prevState: StateType) {
     if (prevProps.bug.id !== this.props.bug.id) {
-      this.setState({ description: this.props.bug.description });
+      this.setState({
+        description: this.props.bug.description,
+        category: this.props.bug.category,
+        severity: this.props.bug.severity,
+        reproducible: this.props.bug.reproducible,
+      });
     }
   }
 
@@ -53,9 +62,7 @@ class BugDetail extends React.Component<PropsType, StateType> {
   descriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = event.target.value;
 
-    this.state.changeDone
-      ? this.setState({ description: value })
-      : this.setState({ changeDone: true, description: value });
+    this.setState({ changeDone: true, description: value });
   };
 
   editDescriptionClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -78,10 +85,21 @@ class BugDetail extends React.Component<PropsType, StateType> {
     if (event) {
       event.stopPropagation();
     }
-    this.props.EditBugDetails(`${this.props.bug.id}`, {
-      update: updatableBugDetails.description,
-      data: this.state.description,
-    });
+
+    const { description, category, severity, reproducible } = this.state;
+    const updatedBug = {
+      ...this.props.bug,
+      description,
+      category,
+      severity,
+      reproducible,
+    };
+    delete updatedBug.notes;
+
+    this.props.EditBugDetails(
+      updatedBug,
+      this.props.bug.category !== updatedBug.category ? 'category' : ''
+    );
 
     this.setState({ editDescription: false, changeDone: false });
   };
@@ -103,6 +121,27 @@ class BugDetail extends React.Component<PropsType, StateType> {
       description: 'Are you sure you want to delete this bug?',
       icon: 'trash alternate',
       dismiss: deleteConfirmed,
+    });
+  };
+
+  optionsGenerator = (
+    options: Array<{ [key: string]: string }>,
+    type: 'category' | 'severity' | 'reproducible'
+  ) => {
+    var i = -1;
+    var selectedOption = this.props.bug[type];
+    var selected = '';
+    return options.map((item) => {
+      i++;
+      selected = selectedOption === item ? 'selected' : '';
+      return <option value={item.value}>{item.option}</option>;
+    });
+  };
+
+  optionSelect = (event: any) => {
+    this.setState({
+      changeDone: true,
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -140,27 +179,70 @@ class BugDetail extends React.Component<PropsType, StateType> {
 
           <div className="BugFeatures">
             <div className="BugFeature">Bug Reproducible</div>
-            <select className="ui dropdown">
-              <option value="0">None</option>
-              <option value="1">Consistently</option>
-              <option value="2">Intermittently</option>
-              <option value="3">Rarely/Once</option>
+            <select
+              className="ui dropdown"
+              value={this.state.reproducible}
+              name="reproducible"
+              onChange={this.optionSelect}
+            >
+              {this.optionsGenerator(
+                [
+                  { value: 'None', option: 'None' },
+                  { value: 'Consistently', option: 'Consistently' },
+                  { value: 'Intermittently', option: 'Intermittently' },
+                  { value: 'Rarely/Once', option: 'Rarely/Once' },
+                ],
+                'reproducible'
+              )}
             </select>
 
             <div className="BugFeature">Bug Severity</div>
-            <select className="ui dropdown">
-              <option value="0">None</option>
-              <option value="1">High</option>
-              <option value="2">Medium</option>
-              <option value="3">Low</option>
+            <select
+              className="ui dropdown"
+              value={this.state.severity}
+              name="severity"
+              onChange={this.optionSelect}
+            >
+              {this.optionsGenerator(
+                [
+                  { value: 'None', option: 'None' },
+                  { value: 'High', option: 'High' },
+                  { value: 'Medium', option: 'Medium' },
+                  { value: 'Low', option: 'Low' },
+                ],
+                'severity'
+              )}
             </select>
 
-            <div className="BugFeature">Status</div>
-            <select className="ui dropdown">
-              <option value="0">None</option>
-              <option value="1">Consistently</option>
-              <option value="2">Intermittently</option>
-              <option value="3">Rarely/Once</option>
+            <div className="BugFeature">Category</div>
+            <select
+              className="ui dropdown"
+              name="category"
+              value={this.state.category}
+              onChange={this.optionSelect}
+            >
+              {this.optionsGenerator(
+                [
+                  { value: StageStates.OPEN, option: StageHeadersObject.OPEN },
+                  {
+                    value: StageStates.IN_PROGRESS,
+                    option: StageHeadersObject.IN_PROGRESS,
+                  },
+                  {
+                    value: StageStates.TEST_PENDING,
+                    option: StageHeadersObject.TEST_PENDING,
+                  },
+                  {
+                    value: StageStates.RE_OPENED,
+                    option: StageHeadersObject.RE_OPENED,
+                  },
+                  {
+                    value: StageStates.CLOSED,
+                    option: StageHeadersObject.CLOSED,
+                  },
+                ],
+                'category'
+              )}
             </select>
           </div>
         </div>

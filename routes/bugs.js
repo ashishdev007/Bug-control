@@ -152,42 +152,45 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-  var query = '';
+  var { bug } = req.body;
+  bug.description = fixString(bug.description);
+  const { description, category, reproducible, severity } = bug;
 
-  if (req.body.update === 'category') {
-    query =
-      'UPDATE BUGS SET category= "' +
-      req.body.data +
-      '" where id = ' +
-      req.params.id +
-      ' ;';
-  } else if (req.body.update === 'description') {
-    const description = fixString(req.body.data);
-    query =
-      'UPDATE BUGS SET description= "' +
-      description +
-      '" where id = ' +
-      req.params.id +
-      ' ;';
-  }
+  const sql = `UPDATE BUGS SET description = ? , category = ? , reproducible = ? , severity = ? WHERE id = ?`;
 
-  connection.query(query, (error, results) => {
-    if (error) {
-      res.json({ success: false });
-    } else {
-      res.json({ success: true });
+  connection.query(
+    { sql, values: [description, category, reproducible, severity, bug.id] },
+    (error, results, fields) => {
+      if (error) {
+        res
+          .status(403)
+          .json({ msg: "Something went wrong! Can't update bug." });
+      } else {
+        console.log(fields);
+
+        res.status(200).json({ success: true });
+      }
     }
-  });
+  );
 });
 
 router.delete('/:id', (req, res) => {
-  const query = 'DELETE FROM BUGS WHERE id = ' + req.params.id;
+  const query1 = 'DELETE FROM NOTES WHERE bugId = ' + req.params.id;
+  const query2 = 'DELETE FROM BUGS WHERE id = ' + req.params.id;
 
-  console.log(query);
-
-  connection.query(query, (error) => {
-    if (error) res.send({ success: false });
-    else res.send({ success: true });
+  connection.query(query1, (error) => {
+    try {
+      if (error) throw error;
+      else {
+        connection.query(query2, (error) => {
+          if (error) throw error;
+          else res.status(200).send({ success: true });
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(403).send({ msg: 'Unable to delete bug!' });
+    }
   });
 });
 

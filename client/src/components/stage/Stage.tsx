@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import {
   OpenBugForm,
   AddBugToCategory,
-  ChangeCategory,
+  EditBugDetails,
   DeleteBug,
 } from '../../actions/bugActions';
 import { AddDraggedBug } from '../../actions/dragActions';
@@ -41,8 +41,9 @@ export class Stage extends Component<PropsType> {
     event.preventDefault();
 
     var draggedBug = { ...this.props.draggedBug };
+    draggedBug.category = this.props.state;
 
-    this.props.ChangeCategory(draggedBug, this.props.state);
+    this.props.EditBugDetails(draggedBug, 'category');
   };
 
   render() {
@@ -76,7 +77,7 @@ const mapDispatchtoProps = {
   AddBugToCategory: AddBugToCategory,
   AddDraggedBug: AddDraggedBug,
   DeleteBug: DeleteBug,
-  ChangeCategory: ChangeCategory,
+  EditBugDetails,
 };
 
 const connector = connect(mapStatetoProps, mapDispatchtoProps);
