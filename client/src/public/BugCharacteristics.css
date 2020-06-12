@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+.BugDetail {
+  max-height: 85vh;
+  overflow: auto;
+  font-family: 'Lato';
+}
+
+#BugDetailHeader {
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+#BugDetailCategory {
+  text-align: center;
+}
+
+#BugDetailCategory + .segment {
+  margin-bottom: 0.45rem;
+}
+
+.BugDescription {
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+#EditDescriptionTextArea {
+  width: 100%;
+  resize: vertical;
+  max-height: 25vh;
+}
+
+#EditDescription {
+  text-align: center;
+  font-size: 0.9em;
+  text-decoration: underline;
+  color: #4183c4;
+  cursor: pointer;
+}
+
+.BugFeatures {
+  display: flex;
+  margin: auto;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
+.BugFeature {
+  margin: auto 2rem;
+  margin-right: 1rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 1em;
+}
+
+.BugFeature:nth-child(1) {
+  margin-left: 0;
+}
+
+.ui.dropdown {
+  width: fit-content;
+  height: fit-content;
+  font-size: 0.9em;
+}
+
+.datePicker-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#DatePicker {
+  margin: 0 2%;
+}

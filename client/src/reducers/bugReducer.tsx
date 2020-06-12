@@ -8,7 +8,7 @@ import { StageStates } from './stageStates';
 import mapkeys from 'lodash.mapkeys';
 import omit from 'lodash.omit';
 
-interface stateType {
+export interface stateType {
   bugs: {
     [key: string]: {
       [key: number]: bug;
@@ -146,7 +146,7 @@ const bugReducer = (
           ...state.bugDetail,
           bug: {
             ...state.bugDetail.bug,
-            notes: [...state.bugDetail.bug.notes, action.payload],
+            notes: [action.payload, ...state.bugDetail.bug.notes],
           },
         },
       };

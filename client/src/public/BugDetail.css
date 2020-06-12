@@ -1,66 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
-
-.BugDetail {
-  max-height: 85vh;
-  overflow: auto;
-  font-family: 'Lato';
-}
-
-#BugDetailHeader {
-  text-align: center;
-  margin-bottom: 0.25rem;
-}
-
-#BugDetailCategory {
-  text-align: center;
-}
-
-#BugDetailCategory + .segment {
-  margin-bottom: 0.45rem;
-}
-
-.BugDescription {
-  font-size: 0.95rem;
-  text-align: center;
-}
-
-#EditDescriptionTextArea {
-  width: 100%;
-  resize: vertical;
-  max-height: 25vh;
-}
-
-#EditDescription {
-  text-align: center;
-  font-size: 0.9em;
-  text-decoration: underline;
-  color: #4183c4;
-  cursor: pointer;
-}
-
-.BugFeatures {
-  display: flex;
-  margin: auto;
-  margin-top: 1.5rem;
-  justify-content: center;
-}
-
-.BugFeature {
-  margin: auto 2rem;
-  margin-right: 1rem;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  font-size: 1.22rem;
-}
-
-.BugFeature:nth-child(1) {
-  margin-left: 0;
-}
-
-.ui.dropdown {
-  width: 9rem;
-}
-
 .RecentNotes {
   width: 50%;
   height: 49vh;
@@ -157,6 +94,31 @@
 }
 
 #ActionButtons {
-  display: flex;
-  justify-content: right;
+  text-align: right;
+}
+
+.react-datepicker__input-container > input {
+  margin: 0;
+  max-width: 100%;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  outline: 0;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  text-align: left;
+  line-height: 1.21428571em;
+  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  padding: 0.67857143em 1em;
+  background: #fff;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 0.28571429rem;
+}
+
+.datePicker-container {
+  margin: 2% auto;
+}
+
+.datePicker-container > span {
+  font-weight: bold;
 }

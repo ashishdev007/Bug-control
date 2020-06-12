@@ -19,7 +19,10 @@ class ViewNotes extends React.Component<PropsType, StateType> {
   }
 
   componentDidUpdate(prevProps: PropsType, prevState: StateType) {
-    if (this.state.notes.length !== this.props.notes.length) {
+    if (
+      this.props.notes &&
+      this.state.notes.length !== this.props.notes.length
+    ) {
       this.getNotes();
     }
   }
@@ -72,7 +75,11 @@ class ViewNotes extends React.Component<PropsType, StateType> {
 
     if (this.state.notes.length > 0) {
       notes.push(
-        <p className="NoteDate SeeAllNotes" onClick={this.seeAllNotesClick}>
+        <p
+          className="NoteDate SeeAllNotes"
+          onClick={this.seeAllNotesClick}
+          key={'s1'}
+        >
           See All
         </p>
       );

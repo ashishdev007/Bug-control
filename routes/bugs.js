@@ -10,6 +10,7 @@ var connection = mysql.createConnection({
   password: 'asdf',
   database: 'Bugs',
   dateStrings: false,
+  timezone: 'Z',
 });
 
 connection.connect((err) => {
@@ -102,9 +103,6 @@ router.post('/notes', (req, res) => {
   const { bugId } = req.body;
   const content = fixString(req.body.content);
 
-  var dateTime = new Date();
-  dateTime = dateTime.toISOString();
-
   const query =
     'INSERT INTO NOTES (bugId, content) ' +
     'VALUES (' +
@@ -113,14 +111,12 @@ router.post('/notes', (req, res) => {
     content +
     '")';
 
-  console.log(query);
-
   connection.query(query, (error, results, fields) => {
     if (error) {
       console.log(error);
       res.json({ success: false });
     } else {
-      console.log(fields);
+      console.log(results);
       res.json({ success: true });
     }
   });

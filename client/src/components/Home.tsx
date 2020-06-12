@@ -3,7 +3,7 @@ import { StageHeaders } from './stage/stageHeaders';
 import { StageStates } from '../reducers/stageStates';
 import Stage from './stage/Stage';
 import AddBug from './bugs/AddBug';
-import BugDetail from './bugs/bugDetail/BugDetail';
+import BugDetails from './bugs/bugDetail/BugDetails';
 import ShowAllNotes from './bugs/bugDetail/ShowAllNotes';
 import { connect, ConnectedProps } from 'react-redux';
 import { FetchBugs } from '../actions/bugActions';
@@ -45,7 +45,7 @@ class Home extends React.Component<HomeProps, HomeState> {
         />
         <Stage stageType={StageHeaders.CLOSED} state={StageStates.CLOSED} />
         <AddBug />
-        <BugDetail />
+        <BugDetails />
         <ShowAllNotes />
       </div>
     );
