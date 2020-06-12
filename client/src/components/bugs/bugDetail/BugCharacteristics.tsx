@@ -44,9 +44,6 @@ const BugChars = () => {
   });
   const [changeDone, setChangeDone] = useState(false);
   const [showBugDetail, setShowBugDetail] = useState(false);
-  const [saveBtnRef, setSaveBtnRef] = useState<React.RefObject<HTMLDivElement>>(
-    React.createRef()
-  );
 
   const dispatch = useDispatch();
 
@@ -94,7 +91,6 @@ const BugChars = () => {
 
   const optionSelect = (event: any) => {
     setChangeDone(true);
-    console.log(saveBtnRef);
     setFeatures({ ...features, [event.target.name]: event.target.value });
   };
 
@@ -119,25 +115,24 @@ const BugChars = () => {
 
   const deleteButtonClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
-    setChangeDone(true);
-    console.log(features);
-    // const deleteConfirmed = (confirm: boolean) => {
-    //   if (confirm) {
-    //     dispatch(DeleteBug(bug));
-    //     // this.closeBugDetail(false);
-    //   } else {
-    //     dispatch(HideAlert());
-    //   }
-    // };
 
-    // dispatch(
-    //   ShowAlert({
-    //     title: 'Confirm Delete',
-    //     description: 'Are you sure you want to delete this bug?',
-    //     icon: 'trash alternate',
-    //     dismiss: deleteConfirmed,
-    //   })
-    // );
+    const deleteConfirmed = (confirm: boolean) => {
+      if (confirm) {
+        dispatch(DeleteBug(bug));
+        closeBugDetail(false);
+      } else {
+        dispatch(HideAlert());
+      }
+    };
+
+    dispatch(
+      ShowAlert({
+        title: 'Confirm Delete',
+        description: 'Are you sure you want to delete this bug?',
+        icon: 'trash alternate',
+        dismiss: deleteConfirmed,
+      })
+    );
   };
 
   const saveButtonClick = (event?: React.MouseEvent<HTMLElement>) => {
@@ -168,9 +163,9 @@ const BugChars = () => {
       saveButtonClick();
     }
     dispatch(HideAlert());
-    setChangeDone(false);
+    dispatch(ShowBugDetails(0, false));
     setDescription({ ...description, edit: false });
-    // dispatch(ShowBugDetails(false, -1));
+    setChangeDone(false);
   };
 
   const BugBasics = () => {
@@ -324,25 +319,28 @@ const BugChars = () => {
         <button className="ui red button" onClick={deleteButtonClick}>
           Delete
         </button>
-        <div
-          className="ui inverted green button"
-          id="SaveButton"
-          onClick={saveButtonClick}
-          // style={{ display: 'none' }}
-          ref={saveBtnRef}
-        >
-          Save
-        </div>
+        {changeDone ? (
+          <div
+            className="ui inverted green button"
+            id="SaveButton"
+            onClick={saveButtonClick}
+          >
+            Save
+          </div>
+        ) : null}
       </div>
     );
   };
 
   return {
+    changeDone,
     showBugDetail,
     BugBasics,
     BugDeadline,
     BugActionButtons,
     addAnotherNote,
+    saveButtonClick,
+    closeBugDetail,
   };
 };
 

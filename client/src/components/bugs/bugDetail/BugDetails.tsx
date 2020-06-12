@@ -7,7 +7,8 @@ import BugChars from './BugCharacteristics';
 import ViewNotes from './ViewNotes';
 
 import { stateType as bugsStateType } from '../../../reducers/bugReducer';
-import { ShowBugDetails, EditBugDetails } from '../../../actions/bugActions';
+import { ShowBugDetails } from '../../../actions/bugActions';
+import { ShowAlert } from '../../../actions/alertActions';
 
 interface RootState {
   bugs: bugsStateType;
@@ -15,11 +16,14 @@ interface RootState {
 
 const BugDetails = () => {
   const {
+    changeDone,
     showBugDetail,
     BugBasics,
     BugDeadline,
     BugActionButtons,
     addAnotherNote,
+    saveButtonClick,
+    closeBugDetail,
   } = BugChars();
   const dispatch = useDispatch();
 
@@ -68,7 +72,18 @@ const BugDetails = () => {
   };
 
   const onDismiss = () => {
-    // dispatch(ShowBugDetails(false, ));
+    if (changeDone) {
+      dispatch(
+        ShowAlert({
+          title: 'Save Changes?',
+          description: 'Do you want to save the changes?',
+          icon: 'save',
+          dismiss: closeBugDetail,
+        })
+      );
+    } else {
+      dispatch(ShowBugDetails(0, false));
+    }
   };
 
   if (showBugDetail) {
