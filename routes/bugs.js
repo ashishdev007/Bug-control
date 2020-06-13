@@ -149,20 +149,33 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   var { bug } = req.body;
-  bug.description = fixString(bug.description);
-  const { description, category, reproducible, severity } = bug;
 
-  const sql = `UPDATE BUGS SET description = ? , category = ? , reproducible = ? , severity = ? WHERE id = ?`;
+  bug.description = fixString(bug.description);
+  const { description, category, reproducible, severity, bugDeadline } = bug;
+
+  const sql = `UPDATE BUGS SET description = ? , category = ? , reproducible = ? , severity = ? , bugDeadline = ? WHERE id = ?`;
 
   connection.query(
-    { sql, values: [description, category, reproducible, severity, bug.id] },
+    {
+      sql,
+      values: [
+        description,
+        category,
+        reproducible,
+        severity,
+        bugDeadline,
+        bug.id,
+      ],
+    },
     (error, results, fields) => {
       if (error) {
+        console.log(error);
+
         res
           .status(403)
           .json({ msg: "Something went wrong! Can't update bug." });
       } else {
-        console.log(fields);
+        console.log(results);
 
         res.status(200).json({ success: true });
       }
@@ -188,6 +201,24 @@ router.delete('/:id', (req, res) => {
       res.status(403).send({ msg: 'Unable to delete bug!' });
     }
   });
+});
+
+router.get('/data/dealines', (req, res) => {
+  console.log('Hello');
+
+  connection.query(
+    {
+      sql:
+        'SELECT * FROM BUGS WHERE bugDeadline IS NOT NULL ORDER BY bugDeadline',
+    },
+    (err, results) => {
+      if (err) res.status(400).json({ msg: "Can't fetch bug deadlines." });
+      else {
+        console.log(results);
+        res.status(200).json({ msg: results });
+      }
+    }
+  );
 });
 
 module.exports = router;

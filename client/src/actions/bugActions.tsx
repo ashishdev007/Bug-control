@@ -161,3 +161,5 @@ export const SeeAllNotes = (
     payload: { seeAllNotes, notes },
   };
 };
+
+export const ShowDeadlines = () => {};

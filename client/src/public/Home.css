@@ -1,8 +1,54 @@
 .Home {
   height: 100vh;
-  width: 100vw;
+  width: 98vw;
   display: flex;
   background-color: #faf9ff;
 
-  padding-left: 10%;
+  /* padding-left: 10%; */
+  /* padding-left: 4%; */
+}
+
+.HamburgerContainer {
+  padding: 2% 0.5%;
+}
+
+.toggle-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 24px;
+  width: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.toggle-button:focus {
+  outline: none;
+}
+
+.toggle-button__line {
+  width: 30px;
+  height: 3px;
+  background: #b2b2b3;
+}
+
+.SidebarDimmer {
+  padding: 0 !important;
+}
+
+.Sidebar {
+  width: 12%;
+  height: 100%;
+  background-color: white;
+}
+
+.Sidebar > .options {
+  display: block;
+  width: 100%;
+
+  font-size: 1.15em;
+  font-weight: 500 !important;
 }

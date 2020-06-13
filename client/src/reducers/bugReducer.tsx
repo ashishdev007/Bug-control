@@ -23,6 +23,11 @@ export interface stateType {
     bug: bug | { notes?: any };
     seeAllNotes: { show: boolean; notes: Array<React.ElementType> };
   };
+  deadlines: {
+    show: boolean;
+    overdue: Array<any>;
+    upcoming: Array<any>;
+  };
 }
 
 const INITIAL_STATE: stateType = {
@@ -42,6 +47,7 @@ const INITIAL_STATE: stateType = {
     bug: {},
     seeAllNotes: { show: false, notes: [] },
   },
+  deadlines: { show: false, overdue: [], upcoming: [] },
 };
 
 const bugReducer = (

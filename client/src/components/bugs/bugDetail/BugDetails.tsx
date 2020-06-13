@@ -22,7 +22,7 @@ const BugDetails = () => {
     BugDeadline,
     BugActionButtons,
     addAnotherNote,
-    saveButtonClick,
+
     closeBugDetail,
   } = BugChars();
   const dispatch = useDispatch();
