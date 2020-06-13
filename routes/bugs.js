@@ -204,18 +204,15 @@ router.delete('/:id', (req, res) => {
 });
 
 router.get('/data/dealines', (req, res) => {
-  console.log('Hello');
-
   connection.query(
     {
       sql:
-        'SELECT * FROM BUGS WHERE bugDeadline IS NOT NULL ORDER BY bugDeadline',
+        'SELECT title, id, bugDeadline FROM BUGS WHERE bugDeadline IS NOT NULL ORDER BY bugDeadline',
     },
     (err, results) => {
       if (err) res.status(400).json({ msg: "Can't fetch bug deadlines." });
       else {
-        console.log(results);
-        res.status(200).json({ msg: results });
+        res.status(200).json({ results });
       }
     }
   );

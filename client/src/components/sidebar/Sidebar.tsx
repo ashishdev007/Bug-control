@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { LogoutUser } from '../actions/authActions';
+import { LogoutUser } from '../../actions/authActions';
 import { useDispatch } from 'react-redux';
+import { ShowDeadlines } from '../../actions/bugActions';
+import Deadlines from './Deadlines';
 
 const Sidebar = () => {
   const [clicked, setClicked] = useState(false);
+  const [showDeadlines, setShowDeadlines] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -32,10 +35,19 @@ const Sidebar = () => {
             >
               Logout
             </button>
-            <button className="ui basic button options">Deadline</button>
+            <button
+              className="ui basic button options"
+              onClick={() => {
+                setShowDeadlines(true);
+                setClicked(false);
+              }}
+            >
+              Deadline
+            </button>
           </div>
         </div>
       ) : null}
+      {showDeadlines ? <Deadlines setShowDeadlines={setShowDeadlines} /> : null}
     </div>
   );
 };

@@ -40,6 +40,7 @@ export interface bug {
   reproducible?: string;
   severity?: string;
   notes?: any;
+  bugDeadline?: any;
 }
 
 export enum updatableBugDetails {

@@ -2,7 +2,7 @@ import React from 'react';
 import { StageHeaders } from './stage/stageHeaders';
 import { StageStates } from '../reducers/stageStates';
 
-import SideBar from './Sidebar';
+import SideBar from './sidebar/Sidebar';
 import Stage from './stage/Stage';
 import AddBug from './bugs/AddBug';
 import BugDetails from './bugs/bugDetail/BugDetails';

@@ -1,0 +1,8 @@
+.deadlineHeader {
+  text-align: center;
+  font-size: 1.75em;
+}
+
+#overdue {
+  color: red;
+}
