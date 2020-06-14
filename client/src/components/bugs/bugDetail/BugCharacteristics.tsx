@@ -78,6 +78,8 @@ const BugChars = () => {
     }
   }, [show]);
 
+  useEffect(() => {}, [deadline]);
+
   const descriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = event.target.value;
     setDescription({ ...description, content: value });
