@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../../../public/BugDetail.css';
+import '../../../public/react-datepicker.css';
 
 import ModalForm from './BugDetailModal';
 import BugChars from './BugCharacteristics';

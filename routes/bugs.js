@@ -152,20 +152,14 @@ router.put('/:id', (req, res) => {
 
   bug.description = fixString(bug.description);
   const { description, category, reproducible, severity, bugDeadline } = bug;
+  const deadline = new Date(bugDeadline);
 
   const sql = `UPDATE BUGS SET description = ? , category = ? , reproducible = ? , severity = ? , bugDeadline = ? WHERE id = ?`;
 
   connection.query(
     {
       sql,
-      values: [
-        description,
-        category,
-        reproducible,
-        severity,
-        bugDeadline,
-        bug.id,
-      ],
+      values: [description, category, reproducible, severity, deadline, bug.id],
     },
     (error, results, fields) => {
       if (error) {

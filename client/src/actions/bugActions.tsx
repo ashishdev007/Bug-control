@@ -50,7 +50,6 @@ export const EditBugDetails = (updatedBug: bug, update?: string) => async (
   dispatch: any
 ) => {
   const query = 'http://localhost:1500/bugs/' + updatedBug.id;
-  console.log(update);
 
   fetch(query, {
     method: 'PUT',

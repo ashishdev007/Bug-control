@@ -55,11 +55,19 @@ const BugChars = () => {
       severity: bug.severity || '',
       reproducible: bug.reproducible || '',
     });
+    if (bug.bugDeadline) {
+      setDeadline({
+        ...deadline,
+        enabled: true,
+        date: new Date(bug.bugDeadline),
+      });
+    } else {
+      setDeadline({
+        enabled: false,
+        date: null,
+      });
+    }
   }, [bug]);
-
-  useEffect(() => {
-    console.log(features);
-  }, [changeDone]);
 
   useEffect(() => {
     if (!changeDone) {
@@ -77,8 +85,6 @@ const BugChars = () => {
       }
     }
   }, [show]);
-
-  useEffect(() => {}, [deadline]);
 
   const descriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = event.target.value;
@@ -105,10 +111,7 @@ const BugChars = () => {
     event.stopPropagation();
     const date = deadline.enabled ? null : new Date();
     setChangeDone(true);
-    setDeadline({
-      date,
-      enabled: !deadline.enabled,
-    });
+    setDeadline({ ...deadline, date, enabled: !deadline.enabled });
   };
 
   const addAnotherNote = (note: string) => {
@@ -142,10 +145,11 @@ const BugChars = () => {
       event.stopPropagation();
     }
 
-    const updatedBug = {
+    const updatedBug: bug = {
       ...bug,
       description: description.content,
       ...features,
+      bugDeadline: deadline.date?.toISOString(),
     };
     delete updatedBug.notes;
 
