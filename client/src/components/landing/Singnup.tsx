@@ -12,13 +12,13 @@ class Signup extends React.Component<SignupProps, SignupState> {
 
   componentDidMount() {
     if (this.props.isAuthenticated) {
-      history.push('/');
+      history.push('/home');
     }
   }
 
   componentDidUpdate() {
     if (this.props.isAuthenticated) {
-      history.push('/');
+      history.push('/home');
     }
   }
 

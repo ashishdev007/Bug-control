@@ -46,7 +46,13 @@ const authReducer = (state: stateType = INITIAL_STATE, action: BaseAction) => {
     case AuthActionTypes.REGISTER_FAIL:
     case AuthActionTypes.LOGOUT_SUCCESS:
       localStorage.removeItem('auth-token');
-      return { ...state, isAuthenticated: false, token: '', user: null };
+      return {
+        ...state,
+        isAuthenticated: false,
+        token: '',
+        user: null,
+        loading: false,
+      };
 
     case AuthActionTypes.USER_LOADING:
       return { ...state, loading: true };

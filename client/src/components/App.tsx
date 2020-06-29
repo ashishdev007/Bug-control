@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { Router, Route } from 'react-router-dom';
 import history from '../history';
 
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LoadUser } from '../actions/authActions';
 
 import LandingPage from './landing/Landing';
@@ -11,17 +11,29 @@ import Alert from './Alert';
 import Home from './Home';
 import Signup from './landing/Singnup';
 import EmailAuth from './landing/EmailAuthentication';
+import Loader from '../modals/Loader';
 
-export class App extends Component<PropsType> {
-  componentDidMount() {
-    this.props.LoadUser();
-  }
+import { stateType as authStateType } from '../reducers/authReducer';
 
-  render() {
+interface RootState {
+  auth: authStateType;
+}
+
+const App = () => {
+  const auth: authStateType = useSelector((state: RootState) => state.auth);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(LoadUser());
+    history.push('/home');
+  }, []);
+
+  if (!auth.loading) {
     return (
       <div className="App">
         <Router history={history}>
-          <Route exact path="/" component={Home} />
+          <Route path="/home" component={Home} />
           <Route exact path="/login" component={LandingPage} />
           <Route exact path="/Signup" component={Signup} />
           <Route
@@ -32,26 +44,9 @@ export class App extends Component<PropsType> {
         <Alert />
       </div>
     );
+  } else {
+    return <Loader />;
   }
-}
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-type OtherPropsType = {
-  stageType?: string;
-  state?: string;
 };
 
-const mapStatetoProps = (state: any, ownProps: OtherPropsType) => {
-  return {};
-};
-
-const mapDispatchtoProps = {
-  LoadUser: LoadUser,
-};
-
-const connector = connect(mapStatetoProps, mapDispatchtoProps);
-
-type PropsType = PropsFromRedux & OtherPropsType;
-
-export default connector(App);
+export default App;

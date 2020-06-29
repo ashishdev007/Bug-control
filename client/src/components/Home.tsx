@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams, Switch, Route } from 'react-router';
 import { StageHeaders } from './stage/stageHeaders';
 import { StageStates } from '../reducers/stageStates';
 
@@ -13,6 +14,7 @@ import { FetchBugs } from '../actions/bugActions';
 
 import '../public/Home.css';
 import history from '../history';
+import { Link } from 'react-router-dom';
 
 export interface HomeState {}
 
@@ -52,11 +54,19 @@ class Home extends React.Component<HomeProps, HomeState> {
           <AddBug />
           <BugDetails />
           <ShowAllNotes />
+
+          <Route path="/home/bug" component={ABC} />
+
+          <Link to="/home/bug">Hello World</Link>
         </div>
       </div>
     );
   }
 }
+
+const ABC = () => {
+  return <h1>Hello World</h1>;
+};
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 

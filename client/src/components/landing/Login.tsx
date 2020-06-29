@@ -16,13 +16,13 @@ class Login extends React.Component<LoginProps, LoginState> {
 
   componentDidMount() {
     if (this.props.isAuthenticated) {
-      history.push('/');
+      history.push('/home');
     }
   }
 
   componentDidUpdate() {
     if (this.props.isAuthenticated) {
-      history.push('/');
+      history.push('/home');
     }
   }
 
