@@ -5,6 +5,7 @@ import { AddDraggedBug } from '../../actions/dragActions';
 import { bug } from '../../actions/types';
 
 import '../../public/BugCard.css';
+import history from '../../history';
 
 type StateType = {
   description: string;
@@ -45,7 +46,7 @@ export class BugCard extends Component<PropsType, StateType> {
   };
 
   onClick = () => {
-    this.props.ShowBugDetails(this.props.id, true);
+    history.push(`/home/bug/${this.props.id}`);
   };
 
   render() {

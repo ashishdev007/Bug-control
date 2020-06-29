@@ -1,5 +1,4 @@
 import React from 'react';
-import { useParams, Switch, Route } from 'react-router';
 import { StageHeaders } from './stage/stageHeaders';
 import { StageStates } from '../reducers/stageStates';
 
@@ -20,17 +19,20 @@ export interface HomeState {}
 
 class Home extends React.Component<HomeProps, HomeState> {
   componentDidMount() {
-    if (!this.props.isAuthenticated) {
-      history.push('/login');
-    }
+    this.pushLogin();
     this.props.FetchBugs();
   }
 
   componentDidUpdate() {
+    this.pushLogin();
+  }
+
+  pushLogin = () => {
+    while (this.props.loading) {}
     if (!this.props.isAuthenticated) {
       history.push('/login');
     }
-  }
+  };
 
   render() {
     return (
@@ -52,27 +54,18 @@ class Home extends React.Component<HomeProps, HomeState> {
           />
           <Stage stageType={StageHeaders.CLOSED} state={StageStates.CLOSED} />
           <AddBug />
-          <BugDetails />
           <ShowAllNotes />
-
-          <Route path="/home/bug" component={ABC} />
-
-          <Link to="/home/bug">Hello World</Link>
         </div>
       </div>
     );
   }
 }
 
-const ABC = () => {
-  return <h1>Hello World</h1>;
-};
-
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const mapStatetoProps = (state: any) => {
-  const { isAuthenticated } = state.auth;
-  return { isAuthenticated };
+  const { isAuthenticated, loading } = state.auth;
+  return { isAuthenticated, loading };
 };
 
 const mapDispatchtoProps = {

@@ -3,6 +3,8 @@ import '../../public/Deadlines.css';
 
 import ModalForm from '../bugs/bugDetail/BugDetailModal';
 import { bug } from '../../actions/types';
+import { Link } from 'react-router-dom';
+import history from '../../history';
 
 interface propsType {
   setShowDeadlines: (showDeadlines: boolean) => void;
@@ -63,11 +65,20 @@ const Deadlines = (Props: propsType) => {
     return dealines.map((item) => {
       key++;
       return (
-        <div className="ui segment" key={key}>
+        <div
+          className="ui segment"
+          key={key}
+          onClick={() => deadlineClick(item.id)}
+          style={{ cursor: 'pointer' }}
+        >
           <p>{item.title}</p>
         </div>
       );
     });
+  };
+
+  const deadlineClick = (id: number) => {
+    history.push(`/home/bug/${id}`);
   };
 
   const modalContent = () => {

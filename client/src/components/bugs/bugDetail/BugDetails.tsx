@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import '../../../public/BugDetail.css';
 import '../../../public/react-datepicker.css';
 
@@ -7,13 +8,9 @@ import ModalForm from './BugDetailModal';
 import BugChars from './BugCharacteristics';
 import ViewNotes from './ViewNotes';
 
-import { stateType as bugsStateType } from '../../../reducers/bugReducer';
 import { ShowBugDetails } from '../../../actions/bugActions';
 import { ShowAlert } from '../../../actions/alertActions';
-
-interface RootState {
-  bugs: bugsStateType;
-}
+import history from '../../../history';
 
 const BugDetails = () => {
   const {
@@ -29,6 +26,12 @@ const BugDetails = () => {
   const dispatch = useDispatch();
 
   const [newNote, setNewNote] = useState('');
+  const { bugId } = useParams();
+
+  useEffect(() => {
+    if (!bugId) history.push('/home');
+    else dispatch(ShowBugDetails(bugId, true));
+  }, []);
 
   const newNoteChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = event.target.value;
@@ -84,6 +87,7 @@ const BugDetails = () => {
       );
     } else {
       dispatch(ShowBugDetails(0, false));
+      history.push('/home');
     }
   };
 

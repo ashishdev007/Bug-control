@@ -14,6 +14,7 @@ import EmailAuth from './landing/EmailAuthentication';
 import Loader from '../modals/Loader';
 
 import { stateType as authStateType } from '../reducers/authReducer';
+import BugDetails from './bugs/bugDetail/BugDetails';
 
 interface RootState {
   auth: authStateType;
@@ -26,14 +27,15 @@ const App = () => {
 
   useEffect(() => {
     dispatch(LoadUser());
-    history.push('/home');
   }, []);
 
   if (!auth.loading) {
     return (
       <div className="App">
         <Router history={history}>
+          <Route exact path="/" component={Landing} />
           <Route path="/home" component={Home} />
+          <Route exact path="/home/bug/:bugId" component={BugDetails} />
           <Route exact path="/login" component={LandingPage} />
           <Route exact path="/Signup" component={Signup} />
           <Route
@@ -47,6 +49,12 @@ const App = () => {
   } else {
     return <Loader />;
   }
+};
+
+const Landing = () => {
+  useEffect(() => history.push('/login'), []);
+
+  return null;
 };
 
 export default App;

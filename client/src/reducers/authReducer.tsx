@@ -20,7 +20,7 @@ export interface stateType {
 
 const INITIAL_STATE: stateType = {
   isAuthenticated: false,
-  loading: false,
+  loading: true,
   token: localStorage.getItem('auth-token'),
   user: null,
   error: {
